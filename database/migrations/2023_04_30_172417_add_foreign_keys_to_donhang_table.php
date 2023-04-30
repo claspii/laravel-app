@@ -13,13 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('account', function (Blueprint $table) {
-            $table->integer('id', true);
-            $table->string('username', 50);
-            $table->string('password', 50);
-            $table->integer('id_role')->index('id_role');
-            $table->date('changeday')->nullable();
-            $table->string('email', 50)->nullable();
+        Schema::table('donhang', function (Blueprint $table) {
+            $table->foreign(['id_trangthai'], 'donhang_ibfk_1')->references(['id'])->on('trangthaidonhang')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 
@@ -30,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('account');
+        Schema::table('donhang', function (Blueprint $table) {
+            $table->dropForeign('donhang_ibfk_1');
+        });
     }
 };

@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('donhang', function (Blueprint $table) {
+        Schema::create('bill_list', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('id_trangthai')->nullable()->index('id_trangthai');
-            $table->integer('id_food')->nullable()->index('id_food');
-            $table->double('tongtien')->nullable();
+            $table->integer('id_bill')->index('id_bill');
+            $table->integer('id_food')->index('id_food');
         });
     }
 
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('donhang');
+        Schema::dropIfExists('bill_list');
     }
 };

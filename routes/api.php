@@ -19,8 +19,16 @@ use App\Http\Middleware\CheckAdmin;
 
 Route::get('/user', 'App\Http\Controllers\Api\AuthController@user')->middleware('auth:api');
 
-Route::group(['middleware' => ['auth:api', 'role']], function() {
-    Route::apiResource('/account', 'App\Http\Controllers\Api\AccountController');
+// Route::group(['middleware' => ['auth:api', 'role']], function() {
+//     Route::apiResource('/account', 'App\Http\Controllers\Api\AccountController');
+// });
+
+Route::group(['middleware' => ['auth:api', 'role:1|3|4', 'check_id']], function(){
+    Route::apiResource('/account', 'App\Http\Controllers\Api\AccountController')->except(['index']);
+});
+
+Route::group(['middleware' => ['auth:api', 'role:2']], function(){
+    Route::apiResource('/accounts', 'App\Http\Controllers\Api\AccountController');
 });
 
 Route::group([
@@ -40,3 +48,4 @@ Route::group([
 Route::apiResource('foods',FoodController::class)->missing(function (Request $request) {
     return Redirect::route('foods.index');
 });
+

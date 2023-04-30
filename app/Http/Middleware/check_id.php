@@ -7,19 +7,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class Role
+class check_id
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, $roles): Response
+    public function handle(Request $request, Closure $next): Response
     {
-        if(in_array(Auth::user()->id_role, explode('|', $roles)))
+        if (Auth::user()->id == $request->account->id)
             return $next($request);
-        return response()->json([
-            'message' => "false role"
+        return Response()->json([
+            
         ]);
     }
 }

@@ -96,10 +96,13 @@ class AuthController extends Controller
             $account = Account::where('email', $request->email)->first();
 
             $tokenResult = $account->createToken('Personal Access Token');
+
             $token = $tokenResult->token;
+
             if ($request->remember_me)
                 $token->expires_at = Carbon::now()->addWeeks(1);
             $token->save();
+
             return response()->json([
                 'message' => 'User Logged In Successfully',
                 'access_token' => $tokenResult->accessToken,
