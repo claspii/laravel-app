@@ -17,4 +17,7 @@ class Account extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    public function get_access_token(){
+        return $this->accessToken;
+    }
 }

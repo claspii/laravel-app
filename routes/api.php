@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\Api\FoodController;
+use App\Http\Middleware\CheckAdmin;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,11 +17,12 @@ use App\Http\Controllers\Api\FoodController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/user', 'App\Http\Controllers\Api\AuthController@user')->middleware('auth:api');
+
+Route::group(['middleware' => ['auth:api', 'role']], function() {
+    Route::apiResource('/account', 'App\Http\Controllers\Api\AccountController');
 });
 
-Route::apiResource('/account', 'App\Http\Controllers\Api\AccountController');
 Route::group([
     'prefix' => 'auth'
 ], function () {

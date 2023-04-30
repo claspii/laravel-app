@@ -10,12 +10,10 @@ class Role extends Model
 {
     use HasFactory;
     protected $table='role';
-    protected $primaryKey='id_role';
-
     protected $fillable=['name'];
 
     public function accounts()
     {
-     return $this->belongsToMany(Account::class,"id_role","id_role");
+     return $this->belongsToMany(Account::class,"id_role");
     }
 }
