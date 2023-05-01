@@ -1,10 +1,13 @@
 <?php
 namespace App\Repositories\Vouncher;
 
-use App\Repositories\RepositoryInterface;
+use App\Repositories\BaseRepository;
 
-interface IVouncherRepository extends RepositoryInterface
+class VouncherRepository extends BaseRepository implements IVouncherRepository
 {
-
+    //lấy model tương ứng
+    public function getModel()
+    {
+        return \App\Models\Vouncher::class;
+    }
 }
-

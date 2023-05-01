@@ -49,3 +49,6 @@ Route::apiResource('foods',FoodController::class)->missing(function (Request $re
     return Redirect::route('foods.index');
 });
 
+Route::group(['middleware' => ['auth:api', 'role:3', 'check_id']], function(){
+    Route::apiResource('/vouncher', 'App\Http\Controllers\Api\VouncherController')->except(['index', 'store']);
+});

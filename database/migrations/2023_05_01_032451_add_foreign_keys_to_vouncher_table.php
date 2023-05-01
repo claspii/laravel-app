@@ -13,10 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('vouncher', function (Blueprint $table) {
-            $table->integer('id', true);
-            $table->integer('id_user')->nullable()->index('id_user');
-            $table->integer('value');
+        Schema::table('vouncher', function (Blueprint $table) {
+            $table->foreign(['id_shop'], 'vouncher_ibfk_1')->references(['id'])->on('inforshop')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 
@@ -27,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vouncher');
+        Schema::table('vouncher', function (Blueprint $table) {
+            $table->dropForeign('vouncher_ibfk_1');
+        });
     }
 };

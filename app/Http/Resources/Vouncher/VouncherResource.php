@@ -16,8 +16,9 @@ class VouncherResource extends JsonResource
     {
         return [
             "id"=>$this->id,
-            "id_user"=>$this->id_user,
+            "id_shop" => $this->id_shop,
             "value"=>$this->value,
+            "number_of_vouncher"=>$this->number_of_vouncher
         ];
     }
 }

@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Account;
+use App\Models\InforShipper;
+use App\Models\InforShop;
+use App\Models\InforUser;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -95,6 +98,17 @@ class AuthController extends Controller
 
             $account = Account::where('email', $request->email)->first();
 
+            $info = null;
+
+            if($account->id_role == 1)
+                $info = InforUser::where('id_account',$account->id)->first();
+            else if($account->id_role == 3)
+                $info = InforShop::where('id_account',$account->id)->first();
+            else if($account->id_role == 4)
+                $info = InforShipper::where('id_account', $account->id)->first();    
+                
+            $request->session()->put('id_info', $info->id);
+                
             $tokenResult = $account->createToken('Personal Access Token');
 
             $token = $tokenResult->token;
@@ -105,6 +119,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'message' => 'User Logged In Successfully',
+                'id_info' => $info->id,
                 'access_token' => $tokenResult->accessToken,
                 'token_type' => 'Bearer',
                 'expires_at' => Carbon::parse(
