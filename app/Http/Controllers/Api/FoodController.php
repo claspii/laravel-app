@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use App\Http\Resources\Food\FoodCollection;
-use App\Http\Resources\Food\FoodResource;
-use App\Http\Controllers\Controller;
+use \App\Http\Resources\Food\FoodResource;
 use Illuminate\Http\Request;
 use App\Repositories\Food\IFoodRepository;
+use Illuminate\Support\Facades\Validator;
 
 
 
@@ -43,16 +43,41 @@ class FoodController extends Controller
     }
     public function store(Request $request)
     {
-        $dataInsert=[
-         'type'=>$request->type,
-         'first_price'=>$request->firstprice,
-         'last_price'=>$request->lastprice,
-         'name'=>$request->name,
-         'id_shop'=>$request->idshop,
-        ];
-         return $this->foodRepo->create($dataInsert);
+        $validator = Validator::make($request->all(), [
+            "id_shop" => 'required|exists:inforshop,id',
+
+        ]);
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'status' => 442,
+                    'errors' => $validator->errors(),
+                ],
+                442
+            );
+        } else {
+            $dataInsert=[
+                'type'=>$request->type,
+                'first_price'=>$request->firstprice,
+                'last_price'=>$request->lastprice,
+                'name'=>$request->name,
+                'id_shop'=>$request->idshop,
+               ];
+            $donhang = $this->foodRepo->create($dataInsert);
+            if ($donhang) {
+                return new FoodResource($donhang);
+            } else {
+                return response()->json(
+                    [
+                        'status' => 500,
+                        'message' => "Some thing went wrong"
+                    ],
+                    500
+                );
+            }
+        }
     }
-    public function update(Request $request)
+    public function update(Request $request,$id)
     {
         $dataUpdate=[
             'food_id'=>$request->id,
@@ -62,10 +87,39 @@ class FoodController extends Controller
             'name'=>$request->name,
             'id_shop'=>$request->idshop,
         ];
-       return $this->foodRepo->update($request->id,$dataUpdate);
+        $result=$this->foodRepo->update($id,$dataUpdate);
+
+       if ($result) {
+        return new FoodResource($result);
+    } else {
+        return response()->json(
+            [
+                'status' => 500,
+                'message' => "Some thing went wrong"
+            ],
+            500
+        );
     }
-    public function destroy(Request $request)
+    }
+    public function destroy($id)
     {
-      
+        $result=$this->foodRepo->delete($id);
+        if($result)
+       {
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => "Delete sucessfully"
+            ],
+            200
+        );
+       }
+       return response()->json(
+        [
+            'status' => 404,
+            'message' => "Delete failed"
+        ],
+        404
+    );
     }
 }

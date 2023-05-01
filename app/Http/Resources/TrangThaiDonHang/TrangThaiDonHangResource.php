@@ -4,7 +4,7 @@ namespace App\Http\Resources\TrangThaiDonHang;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TrangThaiDonHangpResource extends JsonResource
+class TrangThaiDonHangResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

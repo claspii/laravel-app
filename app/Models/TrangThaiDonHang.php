@@ -9,4 +9,5 @@ class TrangThaiDonHang extends Model
 {
     use HasFactory;
     protected $table="trangthaidonhang";
+    protected $fillable=["des"];
 }

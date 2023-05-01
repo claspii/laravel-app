@@ -9,6 +9,7 @@ class Food extends Model
 {
     use HasFactory;
     protected $table='food';
+    protected $primaryKey='food_id';
     /**
      * The attributes that are mass assignable.
      *
@@ -26,5 +27,8 @@ class Food extends Model
     {
         return $this->belongsTo(InforShop::class,'id_shop','id');
     }
-
+    public function FoodBill()
+    {
+        return $this->hasMany(FoodBill::class,"id_food","id");
+    }
 }

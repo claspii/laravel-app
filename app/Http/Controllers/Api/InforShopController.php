@@ -1,11 +1,134 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
+use App\Http\Resources\CustomCollection;
+use App\Http\Resources\InforShop\InforShopResource;
+use App\Repositories\InforShop\IInforShopRepository;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class InforShopController extends Controller
 {
-    //
+    protected $inforShopRepo;
+    public function __construct(IInforShopRepository $repo)
+    {
+        $this->inforShopRepo=$repo;
+    }
+
+    public function index()
+    {
+        $inforshopers = $this->inforShopRepo->getAll();
+        if ($inforshopers) {
+            return new CustomCollection($inforshopers);
+        }
+
+        return response()->json([
+            'status' => 404,
+            'message' => "Empty InforShop!"
+        ], 404);
+    }
+
+    public function store(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            "id_account" => 'required|exists:account,id',
+            "name"=>'required',
+            "address"=>'required',
+
+        ]);
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'status' => 442,
+                    'errors' => $validator->errors(),
+                ],
+                442
+            );
+        } else {
+            $inforShoper = $this->inforShopRepo->create([
+                'id_account' => $request->id_food,
+                'name'=>$request->id_combo,
+                'address'=>$request->address,
+                'image'=>$request->image,
+            ]);
+            if ($inforShoper) {
+                return new InforShopResource($inforShoper);
+            } else {
+                return response()->json(
+                    [
+                        'status' => 500,
+                        'message' => "Some thing went wrong"
+                    ],
+                    500
+                );
+            }
+        }
+    }
+
+
+    public function show($id)
+    {
+        $InforShoper = $this->inforShopRepo->find($id);
+        if ($InforShoper) {
+            return new InforShopResource($InforShoper);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => "No Such InforShop Found!"
+            ], 404);
+        };
+    }
+
+
+
+
+
+    public function update(Request $request, $id)
+    {
+        $dataUpdate = [
+            'id_account' => $request->id_food,
+            'name'=>$request->id_combo,
+            'address'=>$request->address,
+            'image'=>$request->image,
+        ];
+       $result=$this->inforShopRepo->update($id, $dataUpdate);
+       if ($result) {
+        return new InforShopResource($result);
+    } else {
+        return response()->json(
+            [
+                'status' => 500,
+                'message' => "Some thing went wrong"
+            ],
+            500
+        );
+    }
+    }
+
+
+    public function destroy($id)
+    {
+       $result=$this->inforShopRepo->delete($id);
+       if($result)
+       {
+        return response()->json(
+            [
+                'status' => 200,
+                'message' => "Delete sucessfully"
+            ],
+            200
+        );
+       }
+       return response()->json(
+        [
+            'status' => 404,
+            'message' => "Delete failed"
+        ],
+        404
+    );
+    }
 }
+
+

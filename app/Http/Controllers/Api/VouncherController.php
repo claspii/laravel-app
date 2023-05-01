@@ -38,7 +38,7 @@ class VouncherController extends Controller
         {
             return new VouncherResource($vouncher);
         }
-            
+
         else {
             return response()->json([
                 'status' => 404,

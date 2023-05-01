@@ -17,8 +17,8 @@ class InforShop extends Model
     ];
 
     public $timestamps=false;
-    public function InforShope()
+    public function account()
     {
-       return $this->belongsTo(InforShop::class,'id_account','id');
+       return $this->belongsTo(Account::class,'id_account','id');
     }
 }
