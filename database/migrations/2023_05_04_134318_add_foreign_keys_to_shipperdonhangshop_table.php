@@ -14,10 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::table('shipperdonhangshop', function (Blueprint $table) {
-            $table->foreign(['id_user'], 'shipperdonhangshop_ibfk_1')->references(['id'])->on('inforuser')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['id_shipper'], 'shipperdonhangshop_ibfk_2')->references(['id'])->on('inforshipper')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['id_shop'], 'shipperdonhangshop_ibfk_3')->references(['id'])->on('inforshop')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['id_donhang'], 'shipperdonhangshop_ibfk_4')->references(['id'])->on('donhang')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['id_user'], 'shipperdonhangshop_ibfk_5')->references(['id'])->on('account')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['id_shop'], 'shipperdonhangshop_ibfk_6')->references(['id'])->on('account')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['id_shipper'], 'shipperdonhangshop_ibfk_7')->references(['id'])->on('account')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 
@@ -29,10 +29,10 @@ return new class extends Migration
     public function down()
     {
         Schema::table('shipperdonhangshop', function (Blueprint $table) {
-            $table->dropForeign('shipperdonhangshop_ibfk_1');
-            $table->dropForeign('shipperdonhangshop_ibfk_2');
-            $table->dropForeign('shipperdonhangshop_ibfk_3');
             $table->dropForeign('shipperdonhangshop_ibfk_4');
+            $table->dropForeign('shipperdonhangshop_ibfk_5');
+            $table->dropForeign('shipperdonhangshop_ibfk_6');
+            $table->dropForeign('shipperdonhangshop_ibfk_7');
         });
     }
 };

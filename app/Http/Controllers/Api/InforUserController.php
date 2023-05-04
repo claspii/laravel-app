@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\CustomCollection;
 use App\Http\Resources\InforUser\InforUserResource;
 use App\Repositories\InforUser\IInforUserRepository;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class InforUserController extends Controller

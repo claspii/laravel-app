@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('reviewshipper', function (Blueprint $table) {
-            $table->foreign(['id_shipper'], 'reviewshipper_ibfk_1')->references(['id'])->on('inforshipper')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+        Schema::table('cart', function (Blueprint $table) {
+            $table->foreign(['id_user'], 'cart_ibfk_1')->references(['id'])->on('account')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('reviewshipper', function (Blueprint $table) {
-            $table->dropForeign('reviewshipper_ibfk_1');
+        Schema::table('cart', function (Blueprint $table) {
+            $table->dropForeign('cart_ibfk_1');
         });
     }
 };

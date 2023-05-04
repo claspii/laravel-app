@@ -9,7 +9,6 @@ class Food extends Model
 {
     use HasFactory;
     protected $table='food';
-    protected $primaryKey='food_id';
     /**
      * The attributes that are mass assignable.
      *

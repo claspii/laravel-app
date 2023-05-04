@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\Combo\ComboResource;
 use App\Http\Resources\ComboFood\ComboFoodResource;
 use App\Http\Resources\CustomCollection;
+use App\Http\Controllers\Controller;
 use App\Repositories\ComboFood\IComboFoodRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;

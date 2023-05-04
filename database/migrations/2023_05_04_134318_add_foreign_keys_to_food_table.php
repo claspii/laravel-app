@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('vouncher', function (Blueprint $table) {
-            $table->foreign(['id_shop'], 'vouncher_ibfk_1')->references(['id'])->on('inforshop')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+        Schema::table('food', function (Blueprint $table) {
+            $table->foreign(['id_shop'], 'food_ibfk_1')->references(['id'])->on('account')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('vouncher', function (Blueprint $table) {
-            $table->dropForeign('vouncher_ibfk_1');
+        Schema::table('food', function (Blueprint $table) {
+            $table->dropForeign('food_ibfk_1');
         });
     }
 };

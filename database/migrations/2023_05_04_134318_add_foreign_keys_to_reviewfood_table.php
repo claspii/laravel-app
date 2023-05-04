@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::table('reviewfood', function (Blueprint $table) {
             $table->foreign(['id_food'], 'reviewfood_ibfk_1')->references(['id'])->on('food')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['id_shop'], 'reviewfood_ibfk_2')->references(['id'])->on('inforshop')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['id_user'], 'reviewfood_ibfk_3')->references(['id'])->on('inforuser')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['id_shop'], 'reviewfood_ibfk_2')->references(['id'])->on('account')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['id_user'], 'reviewfood_ibfk_3')->references(['id'])->on('account')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 

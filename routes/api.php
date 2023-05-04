@@ -4,7 +4,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\Api\FoodController;
-use App\Http\Middleware\CheckAdmin;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,11 +22,11 @@ Route::get('/user', 'App\Http\Controllers\Api\AuthController@user')->middleware(
 //     Route::apiResource('/account', 'App\Http\Controllers\Api\AccountController');
 // });
 
-Route::group(['middleware' => ['auth:api', 'role:1|3|4', 'check_id']], function(){
+Route::group(['middleware' => ['auth:api']], function(){
     Route::apiResource('/account', 'App\Http\Controllers\Api\AccountController')->except(['index']);
 });
 
-Route::group(['middleware' => ['auth:api', 'role:2']], function(){
+Route::group(['middleware' => ['auth:api']], function(){
     Route::apiResource('/accounts', 'App\Http\Controllers\Api\AccountController');
 });
 
@@ -49,6 +48,8 @@ Route::apiResource('foods',FoodController::class)->missing(function (Request $re
     return Redirect::route('foods.index');
 });
 
-Route::group(['middleware' => ['auth:api', 'role:3', 'check_id']], function(){
+Route::group(['middleware' => ['auth:api']], function(){
     Route::apiResource('/vouncher', 'App\Http\Controllers\Api\VouncherController')->except(['index', 'store']);
 });
+
+Route::get('searchFood', 'App\Http\Controllers\Api\FoodController@SearchFoodbytext');

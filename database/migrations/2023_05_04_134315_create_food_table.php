@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('first_price')->nullable();
             $table->integer('last_price')->nullable();
             $table->string('name', 50)->nullable();
-            $table->integer('id_shop')->nullable();
+            $table->integer('id_shop')->nullable()->index('id_shop');
         });
     }
 

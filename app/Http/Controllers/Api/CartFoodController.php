@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\CartFood\CartFoodResource;
 use App\Http\Resources\CustomCollection;
 use App\Http\Resources\Resources\CartResource;
+use App\Http\Controllers\Controller;
 use App\Repositories\CartFood\ICartFoodRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;

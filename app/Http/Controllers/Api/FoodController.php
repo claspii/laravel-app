@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\Food\FoodCollection;
+use App\Http\Controllers\Controller;
 use \App\Http\Resources\Food\FoodResource;
+use App\Models\Food;
 use Illuminate\Http\Request;
 use App\Repositories\Food\IFoodRepository;
 use Illuminate\Support\Facades\Validator;
@@ -121,5 +123,10 @@ class FoodController extends Controller
         ],
         404
     );
+    }
+
+    public function SearchFoodbytext(Request $request){
+        $result = Food::where('name', 'like', '%'.$request->text.'%')->get();
+        return $result;
     }
 }

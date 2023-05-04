@@ -14,9 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('cartfood', function (Blueprint $table) {
-            $table->foreign(['id_shop'], 'cartfood_ibfk_1')->references(['id'])->on('inforshop')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['id_cart'], 'cartfood_ibfk_2')->references(['id'])->on('cart')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['id_food'], 'cartfood_ibfk_3')->references(['id'])->on('food')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['id_food'], 'cartfood_ibfk_1')->references(['id'])->on('food')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['id_vouncher'], 'cartfood_ibfk_2')->references(['id'])->on('vouncher')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 
@@ -30,7 +29,6 @@ return new class extends Migration
         Schema::table('cartfood', function (Blueprint $table) {
             $table->dropForeign('cartfood_ibfk_1');
             $table->dropForeign('cartfood_ibfk_2');
-            $table->dropForeign('cartfood_ibfk_3');
         });
     }
 };

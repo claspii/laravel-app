@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('cart', function (Blueprint $table) {
-            $table->foreign(['id_user'], 'cart_ibfk_1')->references(['id'])->on('inforuser')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+        Schema::table('combo', function (Blueprint $table) {
+            $table->foreign(['id_shop'], 'combo_ibfk_1')->references(['id'])->on('account')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('cart', function (Blueprint $table) {
-            $table->dropForeign('cart_ibfk_1');
+        Schema::table('combo', function (Blueprint $table) {
+            $table->dropForeign('combo_ibfk_1');
         });
     }
 };
