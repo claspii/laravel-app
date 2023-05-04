@@ -16,7 +16,7 @@ class check_id
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->session()->get('id_info') == $request->vouncher->id_shop)
+        if ($request->session()->get('id_info') == $request->id)
             return $next($request);
         return Response()->json([
             
