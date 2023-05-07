@@ -16,4 +16,10 @@ class Role extends Model
     {
      return $this->belongsToMany(Account::class,"id_role");
     }
+    public const IS_USER=1;
+    public const IS_SHOPPER=2;
+
+    public const IS_ADMIN=3;
+
+    public const IS_SHIPPER=4;
 }

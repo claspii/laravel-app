@@ -195,6 +195,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        GoogleMaps\ServiceProvider\GoogleMapsServiceProvider::class,
     ],
 
     /*
@@ -208,8 +209,11 @@ return [
     |
     */
 
-    'aliases' => Facade::defaultAliases()->merge([
-        // 'ExampleClass' => App\Example\ExampleClass::class,
-    ])->toArray(),
-
+    // 'aliases' => Facade::defaultAliases()->merge([
+    //     GoogleMaps\ServiceProvider\GoogleMapsServiceProvider::class,
+    //     // 'ExampleClass' => App\Example\ExampleClass::class,
+    // ])->toArray(),
+'aliases' => [
+    'GoogleMaps' => GoogleMaps\Facade\GoogleMapsFacade::class,
+]
 ];

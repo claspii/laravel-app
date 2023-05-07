@@ -3,7 +3,9 @@ namespace App\Repositories\InforShop;
 
 use App\Models\Food;
 use App\Models\InforShop;
+use App\Models\ReviewFood;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\DB;
 
 class InforShopRepository extends BaseRepository implements IInforShopRepository
 {
@@ -21,6 +23,9 @@ class InforShopRepository extends BaseRepository implements IInforShopRepository
     public function selectShopBasedOnReviewHighest($limit)
     {
 
+     return  InforShop::join('reviewfood','inforshop.id','=','reviewfood.id_shop')
+        ->select('inforshop.id','inforshop.name',
+        DB::raw('avg(review.star) as average_rating'))->groupBy('review.id_shop')->orderBy('average_rating','desc')->limit($limit)->get();
     }
     public function selectLatLongBasedOnAddress($address)
     {
