@@ -19,7 +19,7 @@ class AuthController extends Controller
     {
         try {
             //Validated
-            $validateUser = Validator::make($request->all(), 
+            $validateUser = Validator::make($request->all(),
             [
                 'username' => 'required',
                 'email' => 'required|email|unique:account,email',
@@ -61,7 +61,7 @@ class AuthController extends Controller
             ], 500);
         }
     }
-  
+
     /**
      * Login user and create token
      *
@@ -75,7 +75,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         try {
-            $validateUser = Validator::make($request->all(), 
+            $validateUser = Validator::make($request->all(),
             [
                 'email' => 'required|email',
                 'password' => 'required'
@@ -97,6 +97,17 @@ class AuthController extends Controller
             }
 
             $account = Account::where('email', $request->email)->first();
+
+            $info = null;
+
+            if($account->id_role == 1)
+                $info = InforUser::where('id_account',$account->id)->first();
+            else if($account->id_role == 3)
+                $info = InforShop::where('id_account',$account->id)->first();
+            else if($account->id_role == 4)
+                $info = InforShipper::where('id_account', $account->id)->first();    
+                
+            $request->session()->put('id_info', $info->id);
                 
             $tokenResult = $account->createToken('Personal Access Token');
 
@@ -122,7 +133,7 @@ class AuthController extends Controller
             ], 500);
         }
     }
-  
+
     /**
      * Logout user (Revoke the token)
      *
@@ -136,7 +147,7 @@ class AuthController extends Controller
             'message' => 'Successfully logged out'
         ]);
     }
-  
+
     /**
      * Get the authenticated User
      *

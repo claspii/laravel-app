@@ -15,6 +15,7 @@ class InforShipperController extends Controller
     public function __construct(IInforUserRepository $repo)
     {
         $this->inforShipperRepo=$repo;
+        $this->authorizeResource(InforShipper::class,'App\Policies\InforShipperPolicy');
     }
 
     public function index()

@@ -15,6 +15,7 @@ class DonHangController extends Controller
     public function __construct(IDonHangRepository $repo)
     {
         $this->donhangRepo=$repo;
+        $this->authorizeResource(DonHang::class,'App\Policies\DonHangPolicy');
     }
 
     public function index()
