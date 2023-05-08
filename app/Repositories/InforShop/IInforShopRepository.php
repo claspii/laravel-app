@@ -29,6 +29,6 @@ class InforShopRepository extends BaseRepository implements IInforShopRepository
     }
     public function selectLatLongBasedOnAddress($address)
     {
-
+       
     }
 }

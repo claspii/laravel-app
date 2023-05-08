@@ -17,7 +17,6 @@ class FoodObserver
       $foodbill=FoodBill::where('id_food',$food->id)->firstOrFail();
       $donhang=DonHang::where('id',$foodbill->id_bill);
       $donhang->update('tongtien',$donhang->tongtien+$food->last_price-$food->lastPriceOld);
-
     }
 
     public  function created(Food $food)

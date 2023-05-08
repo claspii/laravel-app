@@ -12,7 +12,7 @@ class Account extends Authenticatable
     use Notifiable, HasApiTokens;
     public $table = 'account';
     public $timestamps = false;
-    protected $guarded = ['id'];
+
     protected $fillable = ['username', 'password', 'email', 'id_role'];
     protected $hidden = [
         'password', 'remember_token',
