@@ -1,6 +1,5 @@
 <?php
 namespace App\Services;
-
 use GoogleMaps\Service\GeocodingService;
 class GoogleApiService{
     protected $geocodingService;
