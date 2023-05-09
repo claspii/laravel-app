@@ -97,17 +97,6 @@ class AuthController extends Controller
             }
 
             $account = Account::where('email', $request->email)->first();
-
-            $info = null;
-
-            if($account->id_role == 1)
-                $info = InforUser::where('id_account',$account->id)->first();
-            else if($account->id_role == 3)
-                $info = InforShop::where('id_account',$account->id)->first();
-            else if($account->id_role == 4)
-                $info = InforShipper::where('id_account', $account->id)->first();    
-                
-            $request->session()->put('id_info', $info->id);
                 
             $tokenResult = $account->createToken('Personal Access Token');
 

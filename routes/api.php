@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AccountController;
 use App\Http\Controllers\ShipperDonHangShopController;
 use App\Http\Controllers\TrangThaiDonHangController;
 use Illuminate\Http\Request;
@@ -21,17 +22,6 @@ use App\Http\Controllers\Api\FoodController;
 
 Route::get('/user', 'App\Http\Controllers\Api\AuthController@user')->middleware('auth:api');
 
-// Route::group(['middleware' => ['auth:api', 'role']], function() {
-//     Route::apiResource('/account', 'App\Http\Controllers\Api\AccountController');
-// });
-
-Route::group(['middleware' => ['auth:api']], function(){
-    Route::apiResource('/account', 'App\Http\Controllers\Api\AccountController')->except(['index']);
-});
-
-Route::group(['middleware' => ['auth:api']], function(){
-    Route::apiResource('/accounts', 'App\Http\Controllers\Api\AccountController');
-});
 
 Route::group([
     'prefix' => 'auth'
@@ -48,10 +38,6 @@ Route::group([
 });
 
 
-Route::group(['middleware' => ['auth:api', 'role:3', 'check_id']], function(){
-    Route::apiResource('/vouncher', 'App\Http\Controllers\Api\VouncherController')->except(['index', 'store']);
-});
-
 Route::apiResource('foods',FoodController::class)->missing(function (Request $request) {
     return Redirect::route('foods.index');
 });
@@ -63,7 +49,11 @@ Route::group(['middleware' => ['auth:api']], function(){
 
 Route::get('searchFood', 'App\Http\Controllers\Api\FoodController@SearchFoodbytext');
 
+Route::get('searchshopbynamefood', 'App\Http\Controllers\Api\InforShopController@selectShopbyNameFood');
+
 Route::scopeBindings()->group(function(){
+
+    Route::apiResource('account', AccountController::class)->except(['index', 'show']);
 
     Route::apiResource('account.inforshop',InforShopController::class);
 

@@ -21,4 +21,8 @@ class InforShop extends Model
     {
        return $this->belongsTo(Account::class,'id_account','id');
     }
+    public function foods()
+    {
+        return $this->hasMany(Food::class, 'id_shop', 'id_account');
+    }
 }

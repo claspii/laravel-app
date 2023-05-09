@@ -5,6 +5,6 @@ use App\Repositories\RepositoryInterface;
 
 interface IFoodRepository extends RepositoryInterface
 {
-
+    public function searchlistfoodbytext($text, $limit);
 }
 

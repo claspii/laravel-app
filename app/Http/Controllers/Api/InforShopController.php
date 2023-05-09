@@ -130,6 +130,20 @@ class InforShopController extends Controller
         404
     );
     }
+
+    public function selectShopbyNameFood(Request $request){
+        $result = $this->inforShopRepo->selectShopBasedOnNameFood($request->name, 10);
+        if ($result == null){
+            return response()->json([
+                'status' => 404,
+                'message' => 'No shop exists'
+            ], 404);
+        }
+        else
+        {
+            return new CustomCollection($result);
+        }
+    }
 }
 
 

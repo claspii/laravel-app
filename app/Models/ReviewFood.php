@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\ReviewObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,5 +22,10 @@ class ReviewFood extends Model
     public function user()
     {
         return $this->belongsTo(InforUser::class,"id_user");
+    }
+    protected static function boot()
+    {
+        parent::boot();
+        ReviewFood::observe(ReviewObserver::class);
     }
 }

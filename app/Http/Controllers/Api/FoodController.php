@@ -126,7 +126,14 @@ class FoodController extends Controller
     }
 
     public function SearchFoodbytext(Request $request){
-        $result = Food::where('name', 'like', '%'.$request->text.'%')->get();
+        $result = $this->foodRepo->searchlistfoodbytext($request->text, 5);
+        if($result == null)
+        {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No such food found'
+            ], 404);
+        }
         return $result;
     }
 }
