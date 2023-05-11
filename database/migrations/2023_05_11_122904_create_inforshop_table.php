@@ -13,10 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_vouncher', function (Blueprint $table) {
+        Schema::create('inforshop', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('id_user')->index('id_user');
-            $table->integer('id_vouncher')->index('id_vouncher');
+            $table->integer('id_account')->nullable()->index('id_shop');
+            $table->string('name', 150);
+            $table->string('address', 150);
+            $table->string('image', 150)->nullable();
+            $table->float('star', 10, 0)->nullable();
+            $table->integer('number_review')->nullable();
         });
     }
 
@@ -27,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_vouncher');
+        Schema::dropIfExists('inforshop');
     }
 };

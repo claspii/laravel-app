@@ -24,7 +24,7 @@ class Food extends Model
     public $timestamps=false;
     public function InforShop()
     {
-        return $this->belongsTo(InforShop::class,'id_shop','id');
+        return $this->belongsTo(Account::class,'id_shop');
     }
     public function FoodBill()
     {

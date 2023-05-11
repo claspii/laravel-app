@@ -10,8 +10,8 @@ class Cart extends Model
     use HasFactory;
     protected $table="cart";
     protected $fillable=["id","id_user"];
-    public function CartFoods()
+    public function CartShop()
     {
-       return $this->hasMany(CartFood::class,'id_cart');
+       return $this->hasMany(CartShop::class,'id_cart');
     }
 }

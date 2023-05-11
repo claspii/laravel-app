@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cartfood', function (Blueprint $table) {
+        Schema::create('bill_list', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('id_cart')->nullable()->index('id_cart');
+            $table->integer('id_bill')->index('id_bill');
+            $table->integer('id_shop')->nullable()->index('id_shop');
             $table->integer('id_vouncher')->nullable()->index('id_vouncher');
-            $table->integer('id_food')->nullable()->index('id_food');
+            $table->integer('ship_price')->nullable();
         });
     }
 
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cartfood');
+        Schema::dropIfExists('bill_list');
     }
 };

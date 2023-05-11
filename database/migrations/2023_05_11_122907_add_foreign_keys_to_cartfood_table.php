@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('cartfood', function (Blueprint $table) {
             $table->foreign(['id_food'], 'cartfood_ibfk_1')->references(['id'])->on('food')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['id_vouncher'], 'cartfood_ibfk_2')->references(['id'])->on('vouncher')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['id_cartshop'], 'cartfood_ibfk_2')->references(['id'])->on('cart_shop')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 

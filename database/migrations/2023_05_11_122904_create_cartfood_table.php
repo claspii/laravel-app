@@ -13,8 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('donhang', function (Blueprint $table) {
-            $table->foreign(['id_trangthai'], 'donhang_ibfk_1')->references(['id'])->on('trangthaidonhang')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+        Schema::create('cartfood', function (Blueprint $table) {
+            $table->integer('id', true);
+            $table->integer('id_food')->nullable()->index('id_food');
+            $table->integer('id_cartshop')->nullable()->index('cartfood_ibfk_2');
+            $table->integer('quantity')->nullable()->default(1);
         });
     }
 
@@ -25,8 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('donhang', function (Blueprint $table) {
-            $table->dropForeign('donhang_ibfk_1');
-        });
+        Schema::dropIfExists('cartfood');
     }
 };

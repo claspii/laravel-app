@@ -9,21 +9,13 @@ class CartFood extends Model
 {
     use HasFactory;
     protected $table="cartfood";
-    protected $fillable=["id_shop","id_cart","id_vouncher","id_food"];
-    public function inforShop()
+    protected $fillable=["id_cartshop","id_food","quantity"];
+    public function cartshop()
     {
-        return $this->belongsTo(InforShop::class,'id_shop');
-    }
-    public function cart()
-    {
-        return $this->belongsTo(Cart::class,'id_cart');
-    }
-    public function vouncher()
-    {
-        return $this->belongsTo(Vouncher::class,'id_vouncher');
+        return $this->belongsTo(CartShop::class,'id_cartshop');
     }
     public function food()
     {
-        return $this->belongsTo(Vouncher::class,'id_food');
+        return $this->belongsTo(Food::class,'id_food');
     }
 }

@@ -13,10 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('bill_list', function (Blueprint $table) {
+        Schema::create('food', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('id_bill')->index('id_bill');
-            $table->integer('id_food')->index('id_food');
+            $table->string('type', 50);
+            $table->integer('first_price')->nullable();
+            $table->integer('last_price')->nullable();
+            $table->string('name', 50)->nullable();
+            $table->integer('id_shop')->nullable()->index('id_shop');
+            $table->text('image')->nullable();
         });
     }
 
@@ -27,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bill_list');
+        Schema::dropIfExists('food');
     }
 };

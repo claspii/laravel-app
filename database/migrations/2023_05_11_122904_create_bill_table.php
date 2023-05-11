@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('inforshop', function (Blueprint $table) {
+        Schema::create('bill', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('id_account')->nullable()->index('id_shop');
-            $table->string('name', 150);
-            $table->string('address', 150);
-            $table->string('image', 150)->nullable();
+            $table->integer('price');
+            $table->integer('payment_method')->nullable();
+            $table->dateTime('created_at')->nullable();
+            $table->integer('id_state')->nullable()->index('id_state');
+            $table->integer('id_user')->nullable()->index('id_user');
         });
     }
 
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inforshop');
+        Schema::dropIfExists('bill');
     }
 };

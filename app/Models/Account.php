@@ -20,4 +20,7 @@ class Account extends Authenticatable
     public function get_access_token(){
         return $this->accessToken;
     }
+    public function cart(){
+        return $this->hasMany(Cart::class, "id_user");
+    }
 }

@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('shipperdonhangshop', function (Blueprint $table) {
-            $table->foreign(['id_donhang'], 'shipperdonhangshop_ibfk_4')->references(['id'])->on('donhang')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['id_donhang'], 'shipperdonhangshop_ibfk_4')->references(['id'])->on('bill')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['id_user'], 'shipperdonhangshop_ibfk_5')->references(['id'])->on('account')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['id_shop'], 'shipperdonhangshop_ibfk_6')->references(['id'])->on('account')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['id_shipper'], 'shipperdonhangshop_ibfk_7')->references(['id'])->on('account')->onUpdate('NO ACTION')->onDelete('NO ACTION');
