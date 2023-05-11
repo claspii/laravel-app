@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Bill_list;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class CartCollection extends ResourceCollection
+class BillListCollection extends ResourceCollection
 {
 
     public function toArray($request)

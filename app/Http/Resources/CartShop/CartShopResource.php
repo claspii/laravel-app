@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\CartFood;
+namespace App\Http\Resources\CartShop;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CartFoodResource extends JsonResource
+class CartShopResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,10 @@ class CartFoodResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'id_cartshop'=>$this->id_cartshop,
-            'id_food'=>$this->id_food,
-            'quantity'=>$this->quantity
+            'id_shop'=>$this->id_shop,
+            'id_cart'=>$this->id_cart,
+            'id_vouncher'=>$this->id_vouncher,
+            'ship_price'=>$this->ship_price,
         ];
     }
 }
