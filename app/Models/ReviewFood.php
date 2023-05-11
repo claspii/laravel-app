@@ -17,11 +17,11 @@ class ReviewFood extends Model
     }
     public function shop()
     {
-        return $this->belongsTo(InforShop::class,"id_shop");
+        return $this->belongsTo(InforShop::class,"id_shop", "id_account");
     }
     public function user()
     {
-        return $this->belongsTo(InforUser::class,"id_user");
+        return $this->belongsTo(InforUser::class, "id_user", "id_account");
     }
     protected static function boot()
     {

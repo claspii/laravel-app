@@ -9,9 +9,12 @@ class Cart extends Model
 {
     use HasFactory;
     protected $table="cart";
-    protected $fillable=["id","id_user"];
+    protected $fillable=["id_user"];
     public function CartShop()
     {
        return $this->hasMany(CartShop::class,'id_cart');
+    }
+    public function user(){
+        return $this->belongsTo(InforUser::class, 'id_user', 'id_account');
     }
 }

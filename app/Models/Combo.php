@@ -13,6 +13,6 @@ class Combo extends Model
     protected $fillable=["des","id_shop"];
     public function shop()
     {
-        return $this->belongsTo(Account::class,"id_shop");
+        return $this->belongsTo(InforShop::class,"id_shop", 'id_account');
     }
 }

@@ -9,5 +9,9 @@ class TrangThaiDonHang extends Model
 {
     use HasFactory;
     protected $table="trangthaidonhang";
-    protected $fillable=["des"];
+    protected $fillable=["id_bill" ,"des"];
+
+    public function bill(){
+        return $this->belongsTo(FoodBill::class, "id_bill");
+    }
 }

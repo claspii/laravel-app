@@ -13,6 +13,23 @@ class InforUser extends Model
     public $timestamps=false;
     public function account()
     {
-       return $this->belongsTo(Account::class,'id_account','id');
+       return $this->belongsTo(Account::class,'id_account');
+    }
+
+    public function cart(){
+        return $this->hasOne(Cart::class, 'id_user', 'id_account');
+    }
+
+    public function bill()
+    {
+        return $this->hasMany(FoodBill::class, 'id_user', 'id_account');
+    }
+
+    public function shipper_bill(){
+        return $this->hasMany(ShipperDonHangShop::class, 'id_user', 'id_account');
+    }
+
+    public function reviewfood(){
+        return $this->hasMany(reviewfood::class, 'id_user', 'id_account');
     }
 }

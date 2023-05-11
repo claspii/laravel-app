@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CartShop extends Model
+class Bill_list extends Model
 {
     use HasFactory;
-    protected $table="cart_shop";
-    protected $fillable=["id_cart", "id_shop", "id_vouncher"];
-    public function cart()
+    protected $table="bill_list";
+    protected $fillable=["id_bill", "id_shop", "id_vouncher"];
+    public function bill()
     {
-        return $this->belongsTo(Cart::class,'id_cart');
+        return $this->belongsTo(FoodBill::class,'id_bill');
     }
     public function vouncher(){
         return $this->belongsTo(Vouncher::class, "id_vouncher");
@@ -20,7 +20,7 @@ class CartShop extends Model
     public function shop(){
         return $this->belongsTo(InforShop::class, 'id_shop', 'id_account');
     }
-    public function CartFood(){
-        return $this->hasMany(CartFood::class, "id_cartshop");
+    public function bill_list_item(){
+        return $this->hasMany(Bill_list_item::class, "id_listbill");
     }
 }

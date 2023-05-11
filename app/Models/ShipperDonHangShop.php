@@ -10,16 +10,19 @@ class ShipperDonHangShop extends Model
     use HasFactory;
     protected $table="shipperdonhangshop";
     protected $fillable=["id_user","id_shipper","id_shop","id_donhang"];
-    public function user()
-    {
-        return $this->belongsTo(InforUser::class,"id_user");
-    }
+
     public function donhang()
     {
-        return $this->belongsTo(DonHang::class,"id_donhang");
+        return $this->belongsTo(FoodBill::class,"id_donhang");
     }
-    public function shop()
+    public function user()
     {
-        return $this->belongsTo(InforShop::class,"id_shop");
+        return $this->belongsTo(InforUser::class, "id_user", "id_account");
+    }
+    public function shipper(){
+        return $this->belongsTo(InforShipper::class, "id_shipper", "id_account");
+    }
+    public function shop(){
+        return $this->belongsTo(InforShop::class, "id_shop", "id_account");
     }
 }
