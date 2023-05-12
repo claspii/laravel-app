@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Account;
-use App\Models\DonHang;
+use App\Models\FoodBill;
 use App\Models\Role;
 use App\Models\ShipperDonHangShop;
 

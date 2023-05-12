@@ -3,26 +3,26 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\CustomCollection;
-use App\Http\Resources\DonHang\DonHangResource;
-use App\Repositories\DonHang\IDonHangRepository;
+use App\Http\Resources\Bill\BillResource;
+use App\Repositories\Bill\IBillRepository;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class DonHangController extends Controller
+class BillController extends Controller
 {
-    protected $donhangRepo;
-    public function __construct(IDonHangRepository $repo)
+    protected $billRepo;
+    public function __construct(IBillRepository $repo)
     {
-        $this->donhangRepo=$repo;
-        $this->authorizeResource(DonHang::class,'App\Policies\DonHangPolicy');
+        $this->billRepo=$repo;
+        $this->authorizeResource(Bill::class,'App\Policies\BillPolicy');
     }
 
     public function index()
     {
-        $donhangs = $this->donhangRepo->getAll();
-        if ($donhangs) {
-            return new CustomCollection($donhangs);
+        $bills = $this->billRepo->getAll();
+        if ($bills) {
+            return new CustomCollection($bills);
         }
 
         return response()->json([
@@ -35,7 +35,7 @@ class DonHangController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            "id_trangthai" => 'required|exists:trangthaidonhang,id',
+            "id_bill" => 'required|exists:trangthaidonhang,id',
 
         ]);
         if ($validator->fails()) {
@@ -47,12 +47,12 @@ class DonHangController extends Controller
                 442
             );
         } else {
-            $donhang = $this->donhangRepo->create([
+            $bill = $this->billRepo->create([
                 'id_trangthai' => $request->id_trangthai,
                 'tongtien'=>$request->tongtien,
             ]);
-            if ($donhang) {
-                return new DonHangResource($donhang);
+            if ($bill) {
+                return new BillResource($bill);
             } else {
                 return response()->json(
                     [
@@ -68,9 +68,9 @@ class DonHangController extends Controller
 
     public function show($id)
     {
-        $DonHang = $this->donhangRepo->find($id);
-        if ($DonHang) {
-            return new DonHangResource($DonHang);
+        $Bill = $this->billRepo->find($id);
+        if ($Bill) {
+            return new BillResource($Bill);
         } else {
             return response()->json([
                 'status' => 404,
@@ -89,9 +89,9 @@ class DonHangController extends Controller
             'id_trangthai' => $request->id_trangthai,
             'tongtien' => $request->tongtien,
         ];
-       $result=$this->donhangRepo->update($id, $dataUpdate);
+       $result=$this->billRepo->update($id, $dataUpdate);
        if ($result) {
-        return new DonHangResource($result);
+        return new BillResource($result);
     } else {
         return response()->json(
             [
@@ -106,7 +106,7 @@ class DonHangController extends Controller
 
     public function destroy($id)
     {
-       $result=$this->donhangRepo->delete($id);
+       $result=$this->billRepo->delete($id);
        if($result)
        {
         return response()->json(
