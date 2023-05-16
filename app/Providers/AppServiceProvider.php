@@ -19,13 +19,18 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Food\FoodRepository::class,
         );
         $this->app->singleton(
-            \App\Repositories\CartFood\ICartFoodRepository::class,
-            \App\Repositories\CartFood\CartFoodRepository::class
-        );
-        $this->app->singleton(
             \App\Repositories\Cart\ICartRepository::class,
             \App\Repositories\Cart\CartRepository::class
         );
+        $this->app->singleton(
+            \App\Repositories\CartShop\ICartShopRepository::class,
+            \App\Repositories\CartShop\CartShopRepository::class
+        );
+        $this->app->singleton(
+            \App\Repositories\CartFood\ICartFoodRepository::class,
+            \App\Repositories\CartFood\CartFoodRepository::class
+        );
+        
         $this->app->singleton(
             \App\Repositories\Combo\IComboRepository::class,
             \App\Repositories\Combo\ComboRepository::class
@@ -37,10 +42,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             \App\Repositories\ComboFood\IComboFoodRepository::class,
             \App\Repositories\ComboFood\ComboFoodRepository::class
-        );
-        $this->app->singleton(
-            \App\Repositories\DonHang\IDonHangRepository::class,
-            \App\Repositories\DonHang\DonHangRepository::class
         );
         $this->app->singleton(
             \App\Repositories\InforShop\IInforShopRepository::class,
@@ -74,6 +75,10 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\InforShipper\IInforShipperRepository::class,
             \App\Repositories\InforShipper\InforShipperRepository::class
         );
+
+        
+
+
     }
 
     /**

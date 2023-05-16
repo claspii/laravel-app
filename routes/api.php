@@ -47,9 +47,7 @@ Route::group(['middleware' => ['auth:api']], function(){
     Route::apiResource('/vouncher', 'App\Http\Controllers\Api\VouncherController')->except(['index', 'store']);
 });
 
-Route::get('searchFood', 'App\Http\Controllers\Api\FoodController@SearchFoodbytext');
 
-Route::get('searchshopbynamefood', 'App\Http\Controllers\Api\InforShopController@selectShopbyNameFood');
 
 Route::scopeBindings()->group(function(){
 
@@ -76,5 +74,12 @@ Route::scopeBindings()->group(function(){
     Route::apiResource('trangthaidonhang',TrangThaiDonHangController::class);
 });
 
+Route::get('searchFood', 'App\Http\Controllers\Api\FoodController@SearchFoodbytext');
+
+Route::get('searchshopbynamefood', 'App\Http\Controllers\Api\InforShopController@selectShopbyNameFood');
+
+Route::post('addFood', 'App\Http\Controllers\Api\CartFoodController@addFoodtoCart');
+
+Route::post('decreaseFood', 'App\Http\Controllers\Api\CartFoodController@decreaseFoodtoCart');
 
 

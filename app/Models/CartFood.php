@@ -9,6 +9,7 @@ class CartFood extends Model
 {
     use HasFactory;
     protected $table="cartfood";
+    public $timestamps = false;
     protected $fillable=["id_cartshop","id_food","quantity"];
     public function cartshop()
     {

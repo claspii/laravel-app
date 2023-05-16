@@ -27,7 +27,7 @@ class CartFoodController extends Controller
 
         return response()->json([
             'status' => 404,
-            'message' => "Empty Cart Food!"
+            'message' => 'Empty Cart Food!'
         ], 404);
     }
 
@@ -35,10 +35,9 @@ class CartFoodController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            "id_shop" => 'required|exists:inforshop,id',
-            "id_cart" => 'required|exists:cart,id',
-            "id_vouncher" => 'required|exists:vouncher,id',
-            "id_food" => 'required|exists:food,id',
+            'id_cartshop' => 'required|exists:cartshop,id',
+            'quantity' => 'required',
+            'id_food' => 'required|exists:food,id',
         ]);
         if ($validator->fails()) {
             return response()->json(
@@ -50,9 +49,8 @@ class CartFoodController extends Controller
             );
         } else {
             $cartFood = $this->cartFoodRepo->create([
-                'id_shop' => $request->id,
-                'id_cart' => $request->id_cart,
-                'id_vouncher' => $request->id_vouncher,
+                'id_cartshop' => $request->id_cartshop,
+                'quantity' => $request->quantity,
                 'id_food' => $request->id_food,
             ]);
             if ($cartFood) {
@@ -61,7 +59,7 @@ class CartFoodController extends Controller
                 return response()->json(
                     [
                         'status' => 500,
-                        'message' => "Some thing went wrong"
+                        'message' => 'Some thing went wrong'
                     ],
                     500
                 );
@@ -78,21 +76,16 @@ class CartFoodController extends Controller
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => "No Such Cart Food Found!"
+                'message' => 'No Such Cart Food Found!'
             ], 404);
         };
     }
 
-
-
-
-
     public function update(Request $request, $id)
     {
         $dataUpdate = [
-            'id_shop' => $request->id,
-            'id_cart' => $request->id_cart,
-            'id_vouncher' => $request->id_vouncher,
+            'id_cartshop' => $request->id_cartshop,
+            'quantity' => $request->quantity,
             'id_food' => $request->id_food,
         ];
         $result=$this->cartFoodRepo->update($id, $dataUpdate);
@@ -104,7 +97,7 @@ class CartFoodController extends Controller
              return response()->json(
             [
                 'status' => 404,
-                'message' => "Update failed"
+                'message' => 'Update failed'
             ],
             404);
         }
@@ -119,7 +112,7 @@ class CartFoodController extends Controller
         return response()->json(
             [
                 'status' => 200,
-                'message' => "Delete sucessfully"
+                'message' => 'Delete sucessfully'
             ],
             200
         );
@@ -127,9 +120,47 @@ class CartFoodController extends Controller
        return response()->json(
         [
             'status' => 404,
-            'message' => "Delete failed"
+            'message' => 'Delete failed'
         ],
         404
     );
+    }
+
+    public function addFoodtoCart(Request $request)
+    {
+        $result = $this->cartFoodRepo->addCartFoodtoCart(auth()->id(), ['id_food' => $request->id_food, 
+                'id_vouncher' => $request->id_vouncher, 'quantity' => $request->quantity]);
+
+        
+        if($result)
+        {
+            return new CartFoodResource($result);
+        }
+        else{
+                return response()->json(
+            [
+                'status' => 404,
+                'message' => 'Add failed'
+            ],
+            404);
+        }
+    }
+
+    public function decreaseFoodtoCart(Request $request)
+    {
+        $result = $this->cartFoodRepo->decreaseFoodtoCart(auth()->id(), ['id_food' => $request->id_food]);
+        
+        if($result)
+        {
+            return new CartFoodResource($result);
+        }
+        else{
+                return response()->json(
+            [
+                'status' => 404,
+                'message' => 'Decrease failed'
+            ],
+            404);
+        }
     }
 }

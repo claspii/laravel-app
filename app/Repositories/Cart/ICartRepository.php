@@ -1,5 +1,5 @@
 <?php
-namespace App\Repositories\CartFood;
+namespace App\Repositories\Cart;
 
 use App\Repositories\RepositoryInterface;
 

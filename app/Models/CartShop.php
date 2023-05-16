@@ -9,6 +9,7 @@ class CartShop extends Model
 {
     use HasFactory;
     protected $table="cart_shop";
+    public $timestamps = false;
     protected $fillable=["id_cart", "id_shop", "id_vouncher"];
     public function cart()
     {

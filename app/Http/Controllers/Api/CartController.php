@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Resources\CartResource;
 
 
-use App\Repositories\CartFood\ICartRepository;
+use App\Repositories\Cart\ICartRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -29,7 +29,7 @@ class CartController extends Controller
 
         return response()->json([
             'status' => 404,
-            'message' => "Empty Cart!"
+            'message' => 'Empty Cart!'
         ], 404);
     }
 
@@ -37,7 +37,7 @@ class CartController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            "id_user" => 'required|exists:inforuser,id',
+            'id_user' => 'required|exists:inforuser,id_account',
 
         ]);
         if ($validator->fails()) {
@@ -60,7 +60,7 @@ class CartController extends Controller
                 return response()->json(
                     [
                         'status' => 500,
-                        'message' => "Some thing went wrong"
+                        'message' => 'Some thing went wrong'
                     ],
                     500);
             }
@@ -76,14 +76,10 @@ class CartController extends Controller
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => "No Such Cart Found!"
+                'message' => 'No Such Cart Found!'
             ], 404);
         };
     }
-
-
-
-
 
     public function update(Request $request,$id)
     {
@@ -97,7 +93,7 @@ class CartController extends Controller
         return response()->json(
             [
                 'status' => 500,
-                'message' => "Some thing went wrong"
+                'message' => 'Some thing went wrong'
             ],
             500
         );
@@ -114,7 +110,7 @@ class CartController extends Controller
         return response()->json(
             [
                 'status' => 200,
-                'message' => "Delete sucessfully"
+                'message' => 'Delete sucessfully'
             ],
             200
         );
@@ -122,7 +118,7 @@ class CartController extends Controller
        return response()->json(
         [
             'status' => 404,
-            'message' => "Delete failed"
+            'message' => 'Delete failed'
         ],
         404
     );

@@ -6,6 +6,7 @@ use App\Http\Resources\CustomCollection;
 use App\Http\Resources\Bill\BillResource;
 use App\Repositories\Bill\IBillRepository;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -27,7 +28,7 @@ class BillController extends Controller
 
         return response()->json([
             'status' => 404,
-            'message' => "Empty Don Hang!"
+            'message' => 'Empty Bill!'
         ], 404);
     }
 
@@ -35,8 +36,10 @@ class BillController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            "id_bill" => 'required|exists:trangthaidonhang,id',
-
+            'id_state' => 'required|exists:trangthaidonhang,id',
+            'price' => 'required',
+            'id_user' => 'required|exists:inforuser,id_account',
+            'payment_method' => 'required'
         ]);
         if ($validator->fails()) {
             return response()->json(
@@ -48,8 +51,11 @@ class BillController extends Controller
             );
         } else {
             $bill = $this->billRepo->create([
-                'id_trangthai' => $request->id_trangthai,
-                'tongtien'=>$request->tongtien,
+                'id_state' => $request->id_state,
+                'price' => $request->price,
+                'id_user' => $request->id_user,
+                'payment_method' => $request->payment_method,
+                'created_at' => Carbon::now()
             ]);
             if ($bill) {
                 return new BillResource($bill);
@@ -57,7 +63,7 @@ class BillController extends Controller
                 return response()->json(
                     [
                         'status' => 500,
-                        'message' => "Some thing went wrong"
+                        'message' => 'Some thing went wrong'
                     ],
                     500
                 );
@@ -74,20 +80,19 @@ class BillController extends Controller
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => "No Such Don Hang Found!"
+                'message' => 'No Such Bill Found!'
             ], 404);
         };
     }
 
-
-
-
-
     public function update(Request $request, $id)
     {
         $dataUpdate = [
-            'id_trangthai' => $request->id_trangthai,
-            'tongtien' => $request->tongtien,
+            'id_state' => $request->id_state,
+            'price' => $request->price,
+            'id_user' => $request->id_user,
+            'payment_method' => $request->payment_method,
+            'created_at' => Carbon::now()
         ];
        $result=$this->billRepo->update($id, $dataUpdate);
        if ($result) {
@@ -96,7 +101,7 @@ class BillController extends Controller
         return response()->json(
             [
                 'status' => 500,
-                'message' => "Some thing went wrong"
+                'message' => 'Some thing went wrong'
             ],
             500
         );
@@ -112,7 +117,7 @@ class BillController extends Controller
         return response()->json(
             [
                 'status' => 200,
-                'message' => "Delete sucessfully"
+                'message' => 'Delete sucessfully'
             ],
             200
         );
@@ -120,7 +125,7 @@ class BillController extends Controller
        return response()->json(
         [
             'status' => 404,
-            'message' => "Delete failed"
+            'message' => 'Delete failed'
         ],
         404
     );
