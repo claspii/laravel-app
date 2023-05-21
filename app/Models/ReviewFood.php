@@ -23,6 +23,10 @@ class ReviewFood extends Model
     {
         return $this->belongsTo(InforUser::class, "id_user", "id_account");
     }
+    public function reply()
+    {
+        return $this->hasMany(ReplyReview::class, "id_review");
+    }
     protected static function boot()
     {
         parent::boot();

@@ -27,7 +27,7 @@ class BillListItemController extends Controller
 
         return response()->json([
             'status' => 404,
-            'message' => 'Empty Cart Food!'
+            'message' => 'Empty Bill List!'
         ], 404);
     }
 
@@ -76,7 +76,7 @@ class BillListItemController extends Controller
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => 'No Such Cart Food Found!'
+                'message' => 'No Such Bill list item Found!'
             ], 404);
         };
     }

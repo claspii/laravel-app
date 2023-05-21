@@ -7,7 +7,7 @@ use App\Models\FoodBill;
 use App\Models\Role;
 use App\Models\ShipperDonHangShop;
 
-class DonHangPolicy
+class BillPolicy
 {
     /**
      * Create a new policy instance.
