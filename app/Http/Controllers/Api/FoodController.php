@@ -8,6 +8,7 @@ use \App\Http\Resources\Food\FoodResource;
 use App\Models\Food;
 use Illuminate\Http\Request;
 use App\Repositories\Food\IFoodRepository;
+use Exception;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -135,5 +136,49 @@ class FoodController extends Controller
             ], 404);
         }
         return $result;
+    }
+    public function getComboAndFoodListFromShop(Request $request){
+     $result=$this->foodRepo->getComboAndFoodListFromShop($request->idshop);
+     if($result == null)
+     {
+         return response()->json([
+             'status' => 404,
+             'message' => 'Shop do not have list food'
+         ], 404);
+     }
+     return $result;
+    }
+    public function updateFoodListToShop(Request $request)
+    {
+        try{
+            $this->foodRepo->updateFoodListToShop($request->idshop,$request->comboFoodList);
+            return response()->json([
+                'status' => 200,
+                'message' => 'Update success'
+            ], 200);
+        }catch(Exception $e)
+         {
+            return response()->json([
+                'status' => 404,
+                'message' => 'update fail'
+            ], 404);
+         }
+    }
+    public function savelistfoodandcombo(Request $request)
+    {
+        try{
+            $this->foodRepo->savelistfoodandcombo($request->comboFoodList);
+            return response()->json([
+                'status' => 200,
+                'message' => 'save success'
+            ], 200);
+        }catch(Exception $e)
+         {
+            return response()->json([
+                'status' => 404,
+                'message' => 'save fail'
+            ], 404);
+         }
+
     }
 }

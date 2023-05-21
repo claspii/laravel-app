@@ -10,9 +10,13 @@ class Combo extends Model
     use HasFactory;
     protected $table="combo";
 
-    protected $fillable=["des","id_shop"];
+    protected $fillable=["id","des","id_shop"];
     public function shop()
     {
         return $this->belongsTo(InforShop::class,"id_shop", 'id_account');
+    }
+    public function combofood()
+    {
+        return $this->hasMany(ComboFood::class,'id_combo');
     }
 }

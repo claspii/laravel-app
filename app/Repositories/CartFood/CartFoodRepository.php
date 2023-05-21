@@ -18,11 +18,12 @@ class CartFoodRepository extends BaseRepository implements ICartFoodRepository
         $this->cartRepo=$cartRepo;
         $this->cartShopRepo=$cartShopRepo;
         $this->foodRepo=$foodRepo;
+        $this->setModel();
     }
     //lấy model tương ứng
     public function getModel()
     {
-        return \App\Models\CartFood::class;
+        return CartFood::class;
     }
     public function addCartFoodtoCart($user_id,$attributes = [])
     {
@@ -36,9 +37,9 @@ class CartFoodRepository extends BaseRepository implements ICartFoodRepository
         {
            $cart=$this->cartRepo->create($user_id);
         }
-        
+
         $cartShop=CartShop::where('id_cart',$cart->id)->where('id_shop',$food->id_shop)->first();
-        
+
         if($cartShop==null)
         {
             $cartShop=$this->cartShopRepo->create(['id_cart'=>$cart->id,'id_shop'=>$food->id_shop,'id_vouncher'=>$attributes['id_vouncher']]);
@@ -49,7 +50,7 @@ class CartFoodRepository extends BaseRepository implements ICartFoodRepository
         if($cartFood==null)
         {
             $cartFood = CartFood::create(['id_food'=>$food->id,'id_cartshop'=>$cartShop->id,'quantity'=> 0]);
-     
+
         }
         if($cartFood)
         {
