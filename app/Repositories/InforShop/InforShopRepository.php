@@ -17,7 +17,7 @@ class InforShopRepository extends BaseRepository implements IInforShopRepository
     }
     public function selectShopBasedOnNameFood($name, $limit)
     {
-       $listIdShop=Food::select('id_shop')->where('name', 'like', '%'.$name.'%')->limit($limit)->get()->toArray();  
+       $listIdShop=Food::select('id_shop')->where('name', 'like', '%'.$name.'%')->limit($limit)->get()->toArray();
 
        $result=$this->model->whereIn('id_account',$listIdShop)->limit($limit)->get();
        $shopfoods = [];
@@ -33,7 +33,7 @@ class InforShopRepository extends BaseRepository implements IInforShopRepository
     public function selectShopBasedOnReviewHighest($name, $limit)
     {
 
-        $listIdShop=Food::select('id_shop')->where('name', 'like', '%'.$name.'%')->limit($limit)->get()->toArray();  
+        $listIdShop=Food::select('id_shop')->where('name', 'like', '%'.$name.'%')->limit($limit)->get()->toArray();
 
         $result=$this->model->whereIn('id_account',$listIdShop)->orderBy('star', 'desc')->limit($limit)->get();
         $shopfoods = [];
@@ -48,6 +48,6 @@ class InforShopRepository extends BaseRepository implements IInforShopRepository
     }
     public function selectLatLongBasedOnAddress($address)
     {
-       
+
     }
 }

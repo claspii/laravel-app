@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\Api\FoodController;
-
+use App\Http\Controllers\Api\ReviewFoodController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,29 +37,38 @@ Route::group([
 });
 });
 
+Route::post('savelistfood','App\Http\Controllers\Api\FoodController@savelistfoodandcombo');
 
-Route::apiResource('foods',FoodController::class)->missing(function (Request $request) {
-    return Redirect::route('foods.index');
-});
+
+
+// Route::apiResource('foods',FoodController::class)->missing(function (Request $request) {
+//     return Redirect::route('foods.index');
+// });
 
 
 Route::group(['middleware' => ['auth:api']], function(){
     Route::apiResource('/vouncher', 'App\Http\Controllers\Api\VouncherController')->except(['index', 'store']);
+    Route::post('savefoods','App\Http\Controllers\Api\FoodController@savelistfoodandcombo');
+
+Route::put('updatefoods','App\Http\Controllers\Api\FoodController@updateFoodListToShop');
 });
 
+Route::get('searchFood', 'App\Http\Controllers\Api\FoodController@SearchFoodbytext');
 
+Route::get('searchshopbynamefood', 'App\Http\Controllers\Api\InforShopController@selectShopbyNameFood');
 
-Route::scopeBindings()->group(function(){
+Route::get('searchshopbynamefood', 'App\Http\Controllers\Api\InforShopController@selectShopbyNameFood');
+
 
     Route::apiResource('account', AccountController::class)->except(['index', 'show']);
 
-    Route::apiResource('account.inforshop',InforShopController::class);
+    Route::apiResource('inforshop',InforShopController::class);
 
-    Route::apiResource('account.inforuser',InforUserController::class);
+    Route::apiResource('inforuser',InforUserController::class);
 
-    Route::apiResource('account.inforshipper',InforShipperController::class);
+    Route::apiResource('inforshipper',InforShipperController::class);
 
-    Route::apiResource('inforshop.combo',ComboController::class);
+    Route::apiResource('combo',ComboController::class);
 
     Route::apiResource('combo.combofood',ComboFoodController::class);
 
@@ -67,19 +76,15 @@ Route::scopeBindings()->group(function(){
 
     Route::apiResource('donhang.shipperdonhangshop',ShipperDonHangShopController::class);
 
-    Route::apiResource('inforuser.reviewfood',ReviewFoodController::class);
+    Route::apiResource('reviewfood',ReviewFoodController::class);
 
     // Route::apiResource('inforuser.reviewshipper',ReviewShipper::class);
 
     Route::apiResource('trangthaidonhang',TrangThaiDonHangController::class);
-});
 
-Route::get('searchFood', 'App\Http\Controllers\Api\FoodController@SearchFoodbytext');
 
-Route::get('searchshopbynamefood', 'App\Http\Controllers\Api\InforShopController@selectShopbyNameFood');
 
-Route::post('addFood', 'App\Http\Controllers\Api\CartFoodController@addFoodtoCart');
+Route::put('getfoods','App\Http\Controllers\Api\FoodController@getComboAndFoodListFromShop');
 
-Route::post('decreaseFood', 'App\Http\Controllers\Api\CartFoodController@decreaseFoodtoCart');
-
+Route::apiResource('review',ReviewFoodController::class);
 

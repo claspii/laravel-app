@@ -26,10 +26,10 @@ class FoodRepository extends BaseRepository implements IFoodRepository
 
     public function searchlistfoodbytext($text, $limit)
     {
-        $listFood = Food::select('name')->where('name', 'like', '%'.$text.'%')->limit($limit)->get();
+        $listFood = $this->model->select('name')->where('name', 'like', '%'.$text.'%')->limit($limit)->get();
         return $listFood;
     }
-    public function saveFoodListToShop($comboFoodList)
+    public function savelistfoodandcombo($comboFoodList)
     {
          foreach($comboFoodList as $comboFood)
          {
@@ -80,6 +80,6 @@ class FoodRepository extends BaseRepository implements IFoodRepository
                 }
             }
         }
-        $this->saveFoodListToShop($comboFoodList);
+        $this->savelistfoodandcombo($comboFoodList);
     }
 }
