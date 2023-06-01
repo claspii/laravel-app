@@ -33,11 +33,11 @@ class ReviewFoodController extends Controller
 
     public function store(Request $request)
     {
-
+        dd('abc');
         $validator = Validator::make($request->all(), [
             "id_food" => 'required|exists:food,id',
-            "id_shop"=>'required|exists:inforshop,id',
-            "id_user"=>'required|exists:inforuser,id',
+            "id_shop"=>'required|exists:account,id',
+            "id_user"=>'required|exists:account,id',
             "des"=>'required',
             "thoigian"=>"required",
             "star"=>"required",

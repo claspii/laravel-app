@@ -86,6 +86,4 @@ Route::get('searchshopbynamefood', 'App\Http\Controllers\Api\InforShopController
 
 Route::put('getfoods','App\Http\Controllers\Api\FoodController@getComboAndFoodListFromShop');
 
-Route::apiResource('review',ReviewFoodController::class);
-
 

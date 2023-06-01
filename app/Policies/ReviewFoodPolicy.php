@@ -11,6 +11,8 @@ class ReviewFoodPolicy
     /**
      * Create a new policy instance.
      */
+
+
     public function update(Account $account,ReviewFood $ReviewFood)
     {
       return $account->id_role==Role::IS_ADMIN || ($account->id_role==Role::IS_USER && auth()->check() &&  $ReviewFood->id_user==auth()->id());
