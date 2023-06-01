@@ -57,8 +57,6 @@ Route::get('searchFood', 'App\Http\Controllers\Api\FoodController@SearchFoodbyte
 
 Route::get('searchshopbynamefood', 'App\Http\Controllers\Api\InforShopController@selectShopbyNameFood');
 
-Route::get('searchshopbynamefood', 'App\Http\Controllers\Api\InforShopController@selectShopbyNameFood');
-
 
     Route::apiResource('account', AccountController::class)->except(['index', 'show']);
 
@@ -76,7 +74,7 @@ Route::get('searchshopbynamefood', 'App\Http\Controllers\Api\InforShopController
 
     Route::apiResource('donhang.shipperdonhangshop',ShipperDonHangShopController::class);
 
-    Route::apiResource('reviewfood',ReviewFoodController::class);
+    Route::apiResource('reviewfood', 'App\Http\Controllers\Api\ReviewFoodController');
 
     // Route::apiResource('inforuser.reviewshipper',ReviewShipper::class);
 
