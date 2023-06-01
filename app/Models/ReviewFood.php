@@ -11,6 +11,7 @@ class ReviewFood extends Model
     use HasFactory;
     protected $table="reviewfood";
     protected $fillable=["id_food","id_shop","id_user","des","thoigian","star"];
+    public $timestamps = false;
     public function food()
     {
         return $this->belongsTo(Food::class,"id_food","id");

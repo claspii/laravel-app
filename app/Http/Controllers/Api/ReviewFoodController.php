@@ -15,7 +15,6 @@ class ReviewFoodController extends Controller
     public function __construct(IReviewFoodRepository $repo)
     {
         $this->ReviewFoodRepo=$repo;
-        $this->authorizeResource(ReviewFood::class, 'reviewfood');
     }
 
     public function index()
@@ -33,7 +32,6 @@ class ReviewFoodController extends Controller
 
     public function store(Request $request)
     {
-        dd('abc');
         $validator = Validator::make($request->all(), [
             "id_food" => 'required|exists:food,id',
             "id_shop"=>'required|exists:account,id',

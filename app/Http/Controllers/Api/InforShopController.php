@@ -144,6 +144,20 @@ class InforShopController extends Controller
             return new CustomCollection($result);
         }
     }
+
+    public function selectTopShop(Request $request){
+        $result = $this->inforShopRepo->selectTop10Shop(2);
+        if ($result == null){
+            return response()->json([
+                'status' => 404,
+                'message' => 'No shop exists'
+            ], 404);
+        }
+        else
+        {
+            return new CustomCollection($result);
+        }
+    }
 }
 
 

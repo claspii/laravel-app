@@ -1,10 +1,14 @@
 <?php
 namespace App\Repositories\ReviewFood;
 
-use App\Repositories\RepositoryInterface;
+use App\Repositories\BaseRepository;
 
-interface IReviewFoodRepository extends RepositoryInterface
+class ReviewFoodRepository extends BaseRepository implements IReviewFoodRepository
 {
-
+    //lấy model tương ứng
+    public function getModel()
+    {
+        return \App\Models\ReviewFood::class;
+    }
 }
 

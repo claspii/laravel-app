@@ -1,13 +1,9 @@
 <?php
 namespace App\Repositories\ReviewFood;
 
-use App\Repositories\BaseRepository;
+use App\Repositories\RepositoryInterface;
 
-class ReviewFoodRepository extends BaseRepository implements IReviewFoodRepository
+interface IReviewFoodRepository extends RepositoryInterface
 {
-    //lấy model tương ứng
-    public function getModel()
-    {
-        return \App\Models\ReviewFood::class;
-    }
+
 }
