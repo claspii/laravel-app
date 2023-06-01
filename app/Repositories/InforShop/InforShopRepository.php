@@ -46,6 +46,14 @@ class InforShopRepository extends BaseRepository implements IInforShopRepository
         }
         return $shopfoods;
     }
+
+    public function selectTop10Shop($limit)
+    {
+        $listIdTopShop=$this->model->select('id_shop')->orderBy('star', 'desc')->limit($limit)->get()->toArray();
+        $result = $this->model->whereIn('id', $listIdTopShop)->get();
+        return $result;
+    }
+
     public function selectLatLongBasedOnAddress($address)
     {
 

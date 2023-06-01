@@ -15,6 +15,7 @@ class ReviewFoodController extends Controller
     public function __construct(IReviewFoodRepository $repo)
     {
         $this->ReviewFoodRepo=$repo;
+        $this->authorizeResource(ReviewFood::class, 'reviewfood');
     }
 
     public function index()

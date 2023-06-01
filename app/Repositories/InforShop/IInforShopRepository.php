@@ -7,4 +7,5 @@ interface IInforShopRepository extends RepositoryInterface
 {
   public function selectShopBasedOnNameFood($name,$limit);
   public function selectShopBasedOnReviewHighest($name, $limit);
+  public function selectTop10Shop($limit);
 }
