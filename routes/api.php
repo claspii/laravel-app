@@ -21,7 +21,7 @@ use App\Http\Controllers\Api\ReviewFoodController;
 */
 
 Route::get('/user', 'App\Http\Controllers\Api\AuthController@user')->middleware('auth:api');
-
+Route::get('/info', 'App\Http\Controllers\Api\AuthController@info')->middleware('auth:api');
 
 Route::group([
     'prefix' => 'auth'

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\InforUser\InforUserResource;
 use App\Models\Account;
 use App\Models\InforShipper;
 use App\Models\InforShop;
 use App\Models\InforUser;
 use Carbon\Carbon;
+use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -149,7 +151,12 @@ class AuthController extends Controller
 
     public function info(Request $request)
     {
-        return;
+        if($request->user()->id_role == Role::IS_USER)
+            return $request->user()->InforUser;
+        else if ($request->user()->id_role == Role::IS_SHOPPER)
+            return $request->user()->InforShop;
+        else if ($request->user()->id_role == Role::IS_SHIPPER)
+            return $request->user()->InforShipper;
     }
 }
 

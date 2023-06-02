@@ -25,14 +25,14 @@ class Account extends Authenticatable
     }
     public function InforUser()
     {
-        return $this->hasOne(InforUser::class, "id_account", "id");
+        return $this->hasOne(InforUser::class, "id_account");
     }
     public function InforShop()
     {
-        return $this->hasOne(InforShop::class, "id_account", "id");
+        return $this->hasOne(InforShop::class, "id_account");
     }
     public function InforShipper()
     {
-        return $this->hasOne(InforShipper::class, "id_account", "id");
+        return $this->hasOne(InforShipper::class, "id_account");
     }
 }
