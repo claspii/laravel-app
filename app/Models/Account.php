@@ -23,4 +23,16 @@ class Account extends Authenticatable
     public function cart(){
         return $this->hasMany(Cart::class, "id_user");
     }
+    public function InforUser()
+    {
+        return $this->hasOne(InforUser::class, "id_account", "id");
+    }
+    public function InforShop()
+    {
+        return $this->hasOne(InforShop::class, "id_account", "id");
+    }
+    public function InforShipper()
+    {
+        return $this->hasOne(InforShipper::class, "id_account", "id");
+    }
 }

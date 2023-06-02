@@ -3,9 +3,11 @@ namespace App\Repositories\Food;
 
 use App\Repositories\BaseRepository;
 use App\Models\Food;
+use App\Models\ReviewFood;
 use App\Repositories\Combo\IComboRepository;
 use App\Repositories\ComboFood\IComboFoodRepository;
 use App\Repositories\InforShop\IInforShopRepository;
+use Illuminate\Support\Facades\DB;
 
 class FoodRepository extends BaseRepository implements IFoodRepository
 {
@@ -29,6 +31,8 @@ class FoodRepository extends BaseRepository implements IFoodRepository
         $listFood = $this->model->select('name')->where('name', 'like', '%'.$text.'%')->limit($limit)->get();
         return $listFood;
     }
+
+    
     public function savelistfoodandcombo($comboFoodList)
     {
          foreach($comboFoodList as $comboFood)
@@ -81,5 +85,12 @@ class FoodRepository extends BaseRepository implements IFoodRepository
             }
         }
         $this->savelistfoodandcombo($comboFoodList);
+    }
+    public function selectTop10Food($limit)
+    {
+        $listIdFood = ReviewFood::groupBy('id_food')->orderBy(DB::raw('avg(star)'), 'desc')
+        ->select('id_food')->limit($limit)->get()->toArray();
+        $result = $this->model->whereIn('id', $listIdFood)->get();
+        return $result;
     }
 }

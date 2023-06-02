@@ -59,6 +59,8 @@ Route::get('searchshopbynamefood', 'App\Http\Controllers\Api\InforShopController
 
 Route::get('showTopShop', 'App\Http\Controllers\Api\InforShopController@selectTopShop');
 
+Route::get('showTopFood', 'App\Http\Controllers\Api\FoodController@selectTopFood');
+
 
     Route::apiResource('account', AccountController::class)->except(['index', 'show']);
 

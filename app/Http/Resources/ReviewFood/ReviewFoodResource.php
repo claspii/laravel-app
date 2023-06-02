@@ -17,7 +17,6 @@ class ReviewFoodResource extends JsonResource
         return [
             "id"=>$this->id,
             "id_food"=>$this->id_food,
-            "id_shop"=>$this->id_shop,
             "id_user"=>$this->id_user,
             "des"=>$this->des,
             "thoi_gian"=>$this->thoigian,

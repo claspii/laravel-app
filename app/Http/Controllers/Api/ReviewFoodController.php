@@ -6,6 +6,7 @@ use App\Http\Resources\CustomCollection;
 use App\Http\Resources\ReviewFood\ReviewFoodResource;
 use App\Repositories\ReviewFood\IReviewFoodRepository;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -32,9 +33,9 @@ class ReviewFoodController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('create', ReviewFood::class);
         $validator = Validator::make($request->all(), [
             "id_food" => 'required|exists:food,id',
-            "id_shop"=>'required|exists:account,id',
             "id_user"=>'required|exists:account,id',
             "des"=>'required',
             "thoigian"=>"required",
@@ -51,7 +52,6 @@ class ReviewFoodController extends Controller
         } else {
             $ReviewFood = $this->ReviewFoodRepo->create([
                 'id_food' => $request->id_food,
-                'id_shop'=>$request->id_shop,
                 'id_user'=>$request->id_user,
                 'des'=>$request->des,
                 'thoigian'=>$request->thoigian,
@@ -72,15 +72,16 @@ class ReviewFoodController extends Controller
     }
 
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $ReviewFood = $this->ReviewFoodRepo->find($id);
+        $this->authorize('view', [ReviewFood::class, $ReviewFood]);
         if ($ReviewFood) {
             return new ReviewFoodResource($ReviewFood);
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => "No Such ReviewFood Found!"
+                'message' => "No Such Review Found!"
             ], 404);
         };
     }
@@ -92,11 +93,8 @@ class ReviewFoodController extends Controller
     public function update(Request $request, $id)
     {
         $dataUpdate = [
-            'id_food' => $request->id_food,
-            'id_shop'=>$request->id_shop,
-            'id_user'=>$request->id_user,
             'des'=>$request->des,
-            'thoigian'=>$request->thoigian,
+            'thoigian'=> $request->thoigian,
             'star'=>$request->star,
         ];
        $result=$this->ReviewFoodRepo->update($id, $dataUpdate);

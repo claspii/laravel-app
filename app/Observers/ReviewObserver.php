@@ -12,14 +12,14 @@ class ReviewObserver
     }
     public function updated(ReviewFood $review)
     {
-        $shop=InforShop::where('id_account', $review->id_shop)->firstOrFail();
+        $shop=InforShop::where('id_account', $review->food->id_shop)->firstOrFail();
         $shop->star = ($shop->star*$shop->number_review + $review->star - $review->star_old)/($shop->number_review);
         $shop->save();
     }
 
     public  function created(ReviewFood $review)
     {
-        $shop=InforShop::where('id_account', $review->id_shop)->firstOrFail();  
+        $shop=InforShop::where('id_account', $review->food->id_shop)->firstOrFail();  
         $shop->star = ($shop->star*$shop->number_review + $review->star)/($shop->number_review + 1);
         $shop->number_review = $shop->number_review + 1;
         $shop->save();
@@ -27,7 +27,7 @@ class ReviewObserver
 
     public function deleted(ReviewFood $review)
     {
-        $shop=InforShop::where('id_account', $review->id_shop)->firstOrFail();
+        $shop=InforShop::where('id_account', $review->food->id_shop)->firstOrFail();
         $shop->star = ($shop->star*$shop->number_review - $review->star)/($shop->number_review - 1);
         $shop->number_review = $shop->number_review - 1;
     }

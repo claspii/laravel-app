@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\Food\FoodCollection;
 use App\Http\Controllers\Controller;
 use \App\Http\Resources\Food\FoodResource;
+use App\Http\Resources\CustomCollection;
 use App\Models\Food;
 use Illuminate\Http\Request;
 use App\Repositories\Food\IFoodRepository;
@@ -180,5 +181,19 @@ class FoodController extends Controller
             ], 404);
          }
 
+    }
+    public function selectTopFood(Request $request)
+    {
+        $result = $this->foodRepo->selectTop10Food(3);
+        if ($result == null){
+            return response()->json([
+                'status' => 404,
+                'message' => 'No food exists'
+            ], 404);
+        }
+        else
+        {
+            return new CustomCollection($result);
+        }  
     }
 }
