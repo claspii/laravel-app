@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\CartFoodObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,5 +19,10 @@ class CartFood extends Model
     public function food()
     {
         return $this->belongsTo(Food::class,'id_food');
+    }
+    protected static function boot()
+    {
+        parent::boot();
+        CartFood::observe(CartFoodObserver::class);
     }
 }

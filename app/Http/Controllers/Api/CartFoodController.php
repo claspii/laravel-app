@@ -81,54 +81,10 @@ class CartFoodController extends Controller
         };
     }
 
-    public function update(Request $request, $id)
-    {
-        $dataUpdate = [
-            'id_cartshop' => $request->id_cartshop,
-            'quantity' => $request->quantity,
-            'id_food' => $request->id_food,
-        ];
-        $result=$this->cartFoodRepo->update($id, $dataUpdate);
-        if($result)
-        {
-         return new CartFoodResource($result);
-        }
-        else{
-             return response()->json(
-            [
-                'status' => 404,
-                'message' => 'Update failed'
-            ],
-            404);
-        }
-    }
-
-
-    public function destroy($id)
-    {
-       $result=$this->cartFoodRepo->delete($id);
-       if($result)
-       {
-        return response()->json(
-            [
-                'status' => 200,
-                'message' => 'Delete sucessfully'
-            ],
-            200
-        );
-       }
-       return response()->json(
-        [
-            'status' => 404,
-            'message' => 'Delete failed'
-        ],
-        404
-    );
-    }
-
     public function addFoodtoCart(Request $request)
     {
-        $result = $this->cartFoodRepo->addCartFoodtoCart(auth()->id(), ['id_food' => $request->id_food, 
+        $this->authorize('create', CartFood::class);
+        $result = $this->cartFoodRepo->addCartFoodtoCart($request->user()->id, ['id_food' => $request->id_food, 
                 'id_vouncher' => $request->id_vouncher, 'quantity' => $request->quantity]);
 
         
@@ -148,7 +104,8 @@ class CartFoodController extends Controller
 
     public function decreaseFoodtoCart(Request $request)
     {
-        $result = $this->cartFoodRepo->decreaseFoodtoCart(auth()->id(), ['id_food' => $request->id_food]);
+        $this->authorize('create', CartFood::class);
+        $result = $this->cartFoodRepo->decreaseFoodtoCart($request->user()->id, ['id_food' => $request->id_food]);
         
         if($result)
         {
@@ -161,6 +118,29 @@ class CartFoodController extends Controller
                 'message' => 'Decrease failed'
             ],
             404);
+        }
+    }
+    public function deleteFoodInCart(Request $request)
+    {
+        $this->authorize('create', CartFood::class);
+        $result = $this->cartFoodRepo->deleteFoodInCart($request->user()->id, ['id_food' => $request->id_food]);
+        if($result)
+        {
+            return response()->json(
+                [
+                    'status' => 200,
+                    'message' => 'Deleted'
+                ], 200
+            );
+        }
+        else
+        {
+            return response()->json(
+                [
+                    'status' => 404,
+                    'message' => 'Delete failed'
+                ], 404
+            );
         }
     }
 }

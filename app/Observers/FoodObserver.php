@@ -2,34 +2,33 @@
 
 namespace App\Observers;
 
-use App\Models\DonHang;
 use App\Models\Food;
-use App\Models\FoodBill;
+use App\Models\CartFood;
+use App\Models\CartShop;
+use App\Models\Cart;
 
 class FoodObserver
 {
-    public function updateting(Food $Food)
-    {
-       $Food->lastPriceOld=$Food->last_price;
-    }
+
     public function updated(Food $food)
     {
-      $foodbill=FoodBill::where('id_food',$food->id)->firstOrFail();
-      $donhang=DonHang::where('id',$foodbill->id_bill);
-      $donhang->update('tongtien',$donhang->tongtien+$food->last_price-$food->lastPriceOld);
+      $old_last_price = $food->getOriginal('last_price');
+      $cartFoods = CartFood::where('id_food', $food->id)->get();
+      foreach($cartFoods as $cartFood)
+      {
+        $cartShop = CartShop::where('id', $cartFood->id_cartshop)->firstOrFail();
+        $cart = Cart::where('id', $cartShop->id_cart)->firstOrFail();
+        $cart->tongtien = $cart->tongtien + ($food->last_price - $old_last_price)*$cartFood->quantity; 
+        $cart->save();
+      }
     }
 
-    public  function created(Food $food)
+    public function deleting(Food $food)
     {
-      $foodbill=FoodBill::where('id_food',$food->id)->firstOrFail();
-      $donhang=DonHang::where('id',$foodbill->id_bill);
-      $donhang->update('tongtien',$donhang->tongtien+$food->last_price);
-    }
-
-    public function deleted(Food $food)
-    {
-        $foodbill=FoodBill::where('id_food',$food->id)->firstOrFail();
-        $donhang=DonHang::where('id',$foodbill->id_bill);
-        $donhang->update('tongtien',$donhang->tongtien-$food->last_price);
+      $cartFoods = CartFood::where('id_food', $food->id)->get();
+      foreach($cartFoods as $cartFood)
+      {
+        $cartFood->delete();
+      }
     }
 }

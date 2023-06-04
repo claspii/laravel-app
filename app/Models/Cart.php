@@ -9,7 +9,8 @@ class Cart extends Model
 {
     use HasFactory;
     protected $table="cart";
-    protected $fillable=["id_user"];
+    protected $fillable=["id_user", "tongtien"];
+    public $timestamps = false;
     public function CartShop()
     {
        return $this->hasMany(CartShop::class,'id_cart');

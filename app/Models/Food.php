@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\FoodObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,12 +16,13 @@ class Food extends Model
      * @var array
      */
     protected $fillable =
-    ['id',
-        'type',
+    [
+    'type',
     'first_price',
     'last_price',
     'name',
-    'id_shop'];
+    'id_shop',
+    'image'];
 
     public $timestamps=false;
     public function InforShop()
@@ -29,5 +31,10 @@ class Food extends Model
     }
     public function reviewfood(){
         return $this->hasMany(reviewfood::class, 'id_food');
+    }
+    protected static function boot()
+    {
+        parent::boot();
+        Food::observe(FoodObserver::class);
     }
 }

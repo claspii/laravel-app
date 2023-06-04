@@ -3,6 +3,10 @@
 namespace App\Policies;
 
 use App\Models\Account;
+use App\Models\Role;
+use App\Models\CartFood;
+use App\Models\CartShop;
+use App\Models\Cart;
 
 class CartFoodPolicy
 {
@@ -12,5 +16,9 @@ class CartFoodPolicy
     public function __construct()
     {
         //
+    }
+    public function create(Account $account)
+    {
+      return $account->id_role==Role::IS_USER;
     }
 }

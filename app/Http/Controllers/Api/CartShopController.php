@@ -6,6 +6,7 @@ use App\Http\Resources\CartShop\CartShopResource;
 use App\Http\Resources\CustomCollection;
 use App\Http\Resources\Resources\CartResource;
 use App\Http\Controllers\Controller;
+use App\Models\CartShop;
 use App\Repositories\CartShop\ICartShopRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -71,6 +72,7 @@ class CartShopController extends Controller
     public function show($id)
     {
         $cartShop = $this->cartShopRepo->find($id);
+        dd($cartShop->ship_price);
         if ($cartShop) {
             return new CartShopResource($cartShop);
         } else {
@@ -83,15 +85,17 @@ class CartShopController extends Controller
 
     public function update(Request $request, $id)
     {
-        $dataUpdate = [
-            'id_shop' => $request->id_shop,
-            'id_cart' => $request->id_cart,
-            'id_vouncher' => $request->id_vouncher,
-        ];
-        $result=$this->cartShopRepo->update($id, $dataUpdate);
+        $cartShop = CartShop::find($id);
+        if($cartShop == null)
+        return response()->json([
+            'status' => 404,
+            'message' => 'Cart Shop not found'
+        ], 404);
+        $this->authorize('update', [CartShop::class, $cartShop]);
+        $result=$cartShop->update($request->all());
         if($result)
         {
-         return new CartShopResource($result);
+         return new CartShopResource($cartShop);
         }
         else{
              return response()->json(

@@ -47,8 +47,9 @@ class FoodController extends Controller
     }
     public function store(Request $request)
     {
+        $this->authorize('create', Food::class);
         $validator = Validator::make($request->all(), [
-            "id_shop" => 'required|exists:inforshop,id',
+            "id_shop" => 'required|exists:inforshop,id_account',
 
         ]);
         if ($validator->fails()) {
@@ -62,10 +63,11 @@ class FoodController extends Controller
         } else {
             $dataInsert=[
                 'type'=>$request->type,
-                'first_price'=>$request->firstprice,
-                'last_price'=>$request->lastprice,
+                'first_price'=>$request->first_price,
+                'last_price'=>$request->last_price,
                 'name'=>$request->name,
-                'id_shop'=>$request->idshop,
+                'id_shop'=>$request->id_shop,
+                'image' => $request->image
                ];
             $donhang = $this->foodRepo->create($dataInsert);
             if ($donhang) {
@@ -81,33 +83,39 @@ class FoodController extends Controller
             }
         }
     }
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
-        $dataUpdate=[
-            'food_id'=>$request->id,
-            'type'=>$request->type,
-            'first_price'=>$request->firstprice,
-            'last_price'=>$request->lastprice,
-            'name'=>$request->name,
-            'id_shop'=>$request->idshop,
-        ];
-        $result=$this->foodRepo->update($id,$dataUpdate);
-
-       if ($result) {
-        return new FoodResource($result);
-    } else {
-        return response()->json(
+        $food = Food::find($id);
+        if($food == null)
+        return response()->json([
+            'status' => 404,
+            'message' => 'Food not found'
+        ], 404);
+        $this->authorize('update', [Food::class, $food]);
+        $result = $food->update($request->all());
+        if($result)
+        {
+         return new FoodResource($food);
+        }
+        else{
+             return response()->json(
             [
-                'status' => 500,
-                'message' => "Some thing went wrong"
+                'status' => 404,
+                'message' => "Update failed"
             ],
-            500
-        );
-    }
+            404);
+        }
     }
     public function destroy($id)
     {
-        $result=$this->foodRepo->delete($id);
+        $food = Food::find($id);
+        if($food == null)
+        return response()->json([
+            'status' => 404,
+            'message' => 'Food not found'
+        ], 404);
+        $this->authorize('delete', [Food::class, $food]);
+        $result= $food->delete();
         if($result)
        {
         return response()->json(
@@ -139,7 +147,7 @@ class FoodController extends Controller
         return $result;
     }
     public function getComboAndFoodListFromShop(Request $request){
-     $result=$this->foodRepo->getComboAndFoodListFromShop($request->idshop);
+     $result=$this->foodRepo->getComboAndFoodListFromShop($request->id_shop);
      if($result == null)
      {
          return response()->json([
@@ -152,7 +160,7 @@ class FoodController extends Controller
     public function updateFoodListToShop(Request $request)
     {
         try{
-            $this->foodRepo->updateFoodListToShop($request->idshop,$request->comboFoodList);
+            $this->foodRepo->updateFoodListToShop($request->id_shop,$request->comboFoodList);
             return response()->json([
                 'status' => 200,
                 'message' => 'Update success'

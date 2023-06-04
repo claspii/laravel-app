@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AccountController;
+use App\Http\Controllers\Api\CartShopController;
 use App\Http\Controllers\ShipperDonHangShopController;
 use App\Http\Controllers\TrangThaiDonHangController;
 use Illuminate\Http\Request;
@@ -8,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\Api\FoodController;
 use App\Http\Controllers\Api\ReviewFoodController;
+use App\Models\CartFood;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,28 +63,38 @@ Route::get('showTopShop', 'App\Http\Controllers\Api\InforShopController@selectTo
 
 Route::get('showTopFood', 'App\Http\Controllers\Api\FoodController@selectTopFood');
 
+Route::post('addFood', 'App\Http\Controllers\Api\CartFoodController@addFoodtoCart');
 
-    Route::apiResource('account', AccountController::class)->except(['index', 'show']);
+Route::post('decreaseFood', 'App\Http\Controllers\Api\CartFoodController@decreaseFoodtoCart');
 
-    Route::apiResource('inforshop',InforShopController::class);
+Route::post('deleteFood', 'App\Http\Controllers\Api\CartFoodController@deleteFoodInCart');
 
-    Route::apiResource('inforuser',InforUserController::class);
 
-    Route::apiResource('inforshipper',InforShipperController::class);
+Route::apiResource('account', AccountController::class)->except(['index', 'show']);
 
-    Route::apiResource('combo',ComboController::class);
+Route::apiResource('inforshop',InforShopController::class);
 
-    Route::apiResource('combo.combofood',ComboFoodController::class);
+Route::apiResource('inforuser',InforUserController::class);
 
-    Route::apiResource('donhang',DonHangController::class);
+Route::apiResource('food', FoodController::class);
 
-    Route::apiResource('donhang.shipperdonhangshop',ShipperDonHangShopController::class);
+Route::apiResource('cartshop', CartShopController::class);
 
-    Route::apiResource('reviewfood', 'App\Http\Controllers\Api\ReviewFoodController');
+Route::apiResource('inforshipper',InforShipperController::class);
 
-    // Route::apiResource('inforuser.reviewshipper',ReviewShipper::class);
+Route::apiResource('combo',ComboController::class);
 
-    Route::apiResource('trangthaidonhang',TrangThaiDonHangController::class);
+Route::apiResource('combo.combofood',ComboFoodController::class);
+
+Route::apiResource('donhang',DonHangController::class);
+
+Route::apiResource('donhang.shipperdonhangshop',ShipperDonHangShopController::class);
+
+Route::apiResource('reviewfood', 'App\Http\Controllers\Api\ReviewFoodController');
+
+// Route::apiResource('inforuser.reviewshipper',ReviewShipper::class);
+
+Route::apiResource('trangthaidonhang',TrangThaiDonHangController::class);
 
 
 

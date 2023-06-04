@@ -18,7 +18,6 @@ class InforShopRepository extends BaseRepository implements IInforShopRepository
     public function selectShopBasedOnNameFood($name, $limit)
     {
        $listIdShop=Food::select('id_shop')->where('name', 'like', '%'.$name.'%')->limit($limit)->get()->toArray();
-
        $result=$this->model->whereIn('id_account',$listIdShop)->limit($limit)->get();
        $shopfoods = [];
        foreach($result as $shop){
