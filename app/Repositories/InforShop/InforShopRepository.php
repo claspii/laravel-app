@@ -22,9 +22,9 @@ class InforShopRepository extends BaseRepository implements IInforShopRepository
        $shopfoods = [];
        foreach($result as $shop){
             $obj = new stdClass();
-            $obj->shop = $shop;
             $foodFilter = $shop->foods->filter(function ($food) use ($name) { return strpos($food->name, $name) !== false; });
             $obj->foodFilter = $foodFilter;
+            $obj->shop = $shop->setRelation('foods', null);
             array_push($shopfoods, $obj);
        }
        return $shopfoods;
@@ -38,9 +38,9 @@ class InforShopRepository extends BaseRepository implements IInforShopRepository
         $shopfoods = [];
         foreach($result as $shop){
              $obj = new stdClass();
-             $obj->shop = $shop;
              $foodFilter = $shop->foods->filter(function ($food) use ($name) { return strpos($food->name, $name) !== false; });
              $obj->foodFilter = $foodFilter;
+             $obj->shop = $shop;
              array_push($shopfoods, $obj);
         }
         return $shopfoods;

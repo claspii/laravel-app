@@ -32,14 +32,14 @@ class InforUserController extends Controller
 
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             "id_account" => 'required|exists:account,id',
             "last_name"=>'required',
             "first_name"=>'required',
             "address"=>'required',
-            "phone_number"=>"require",
+            "phone_number"=>"required",
         ]);
+        $this->authorize('create', [InforUser::class, $request->id_account]);
         if ($validator->fails()) {
             return response()->json(
                 [

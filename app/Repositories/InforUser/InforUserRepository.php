@@ -1,10 +1,13 @@
 <?php
 namespace App\Repositories\InforUser;
 
-use App\Repositories\RepositoryInterface;
+use App\Repositories\BaseRepository;
 
-interface IInforUserRepository extends RepositoryInterface
+class InforUserRepository extends BaseRepository implements IInforUserRepository
 {
-
+    //lấy model tương ứng
+    public function getModel()
+    {
+        return \App\Models\InforUser::class;
+    }
 }
-

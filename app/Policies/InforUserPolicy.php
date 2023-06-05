@@ -15,6 +15,10 @@ class InforUserPolicy
      {
          //
      }
+     public function create(Account $account, $id)
+     {
+        return $account->id_role == Role::IS_USER && $account->id = $id;
+     }
 
      public function update(Account $account,InforUser $InforUser)
      {

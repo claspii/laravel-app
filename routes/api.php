@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\Api\FoodController;
 use App\Http\Controllers\Api\ReviewFoodController;
 use App\Models\CartFood;
+use App\Models\InforShipper;
+use App\Http\Controllers\Api\InforUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,6 +83,10 @@ Route::apiResource('food', FoodController::class);
 Route::apiResource('cartshop', CartShopController::class);
 
 Route::apiResource('inforshipper',InforShipperController::class);
+
+Route::apiResource('inforuser', InforUserController::class);
+
+Route::apiResource('inforshipper', InforShipper::class);
 
 Route::apiResource('combo',ComboController::class);
 
