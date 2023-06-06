@@ -15,7 +15,6 @@ class InforShopResource extends JsonResource
     public function toArray($request)
     {
         return [
-            "id"=>$this->id,
             "id_account"=>$this->id_account,
             "name"=>$this->name,
             "address"=>$this->address,

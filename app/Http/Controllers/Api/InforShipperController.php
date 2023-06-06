@@ -4,18 +4,18 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\CustomCollection;
 use App\Http\Resources\InforShipper\InforShipperResource;
-use App\Repositories\InforUser\IInforUserRepository;
+use App\Repositories\InforShipper\IInforShipperRepository;
 use App\Http\Controllers\Controller;
+use App\Models\InforShipper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class InforShipperController extends Controller
 {
     protected $inforShipperRepo;
-    public function __construct(IInforUserRepository $repo)
+    public function __construct(IInforShipperRepository $repo)
     {
         $this->inforShipperRepo=$repo;
-        $this->authorizeResource(InforShipper::class,'App\Policies\InforShipperPolicy');
     }
 
     public function index()
@@ -38,8 +38,8 @@ class InforShipperController extends Controller
             "id_account" => 'required|exists:account,id',
             "name"=>'required',
             "address"=>'required',
-
         ]);
+        $this->authorize('create', [InforShipper::class, $request->id_account]);
         if ($validator->fails()) {
             return response()->json(
                 [
@@ -51,7 +51,7 @@ class InforShipperController extends Controller
         } else {
             $inforShipper = $this->inforShipperRepo->create([
                 'id_account' => $request->id_account,
-                'name'=>$request->id_name,
+                'name'=>$request->name,
                 'address'=>$request->address,
                 'img'=>$request->img,
             ]);
@@ -89,15 +89,16 @@ class InforShipperController extends Controller
 
     public function update(Request $request, $id)
     {
-        $dataUpdate = [
-            'id_account' => $request->id_account,
-            'name'=>$request->name,
-            'address'=>$request->address,
-            'img'=>$request->img,
-        ];
-       $result=$this->inforShipperRepo->update($id, $dataUpdate);
+        $inforShipper = InforShipper::find($id);
+        if($inforShipper == null)
+        return response()->json([
+            'status' => 404,
+            'message' => 'Info not found'
+        ], 404);
+        $this->authorize('update', [InforShipper::class, $inforShipper]);
+       $result = $inforShipper->update($request->all());
        if ($result) {
-        return new InforShipperResource($result);
+        return new InforShipperResource($inforShipper);
     } else {
         return response()->json(
             [

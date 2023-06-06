@@ -12,6 +12,8 @@ use App\Http\Controllers\Api\ReviewFoodController;
 use App\Models\CartFood;
 use App\Models\InforShipper;
 use App\Http\Controllers\Api\InforUserController;
+use App\Http\Controllers\Api\InforShopController;
+use App\Http\Controllers\Api\InforShipperController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,9 +76,7 @@ Route::post('deleteFood', 'App\Http\Controllers\Api\CartFoodController@deleteFoo
 
 Route::apiResource('account', AccountController::class)->except(['index', 'show']);
 
-Route::apiResource('inforshop',InforShopController::class);
 
-Route::apiResource('inforuser',InforUserController::class);
 
 Route::apiResource('food', FoodController::class);
 
@@ -86,7 +86,7 @@ Route::apiResource('inforshipper',InforShipperController::class);
 
 Route::apiResource('inforuser', InforUserController::class);
 
-Route::apiResource('inforshipper', InforShipper::class);
+Route::apiResource('inforshop',InforShopController::class);
 
 Route::apiResource('combo',ComboController::class);
 

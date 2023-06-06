@@ -1,13 +1,9 @@
 <?php
-namespace App\Repositories\InforShop;
+namespace App\Repositories\InforShipper;
 
-use App\Repositories\BaseRepository;
+use App\Repositories\RepositoryInterface;
 
-class InforShipperRepository extends BaseRepository implements IInforShipperRepository
+interface IInforShipperRepository extends RepositoryInterface
 {
-    //lấy model tương ứng
-    public function getModel()
-    {
-        return \App\Models\InforShipper::class;
-    }
+
 }

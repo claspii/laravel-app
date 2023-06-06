@@ -16,7 +16,10 @@ class InforShipperPolicy
      {
          //
      }
-
+     public function create(Account $account, $id)
+     {
+        return $account->id_role == Role::IS_SHIPPER && $account->id == $id;
+     }
      public function update(Account $account,InforShipper $InforShipper)
      {
        return $account->id_role==Role::IS_SHIPPER && auth()->check() &&  $InforShipper->id_account==auth()->id();

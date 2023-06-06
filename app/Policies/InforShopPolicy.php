@@ -15,7 +15,10 @@ class InforShopPolicy
      {
          //
      }
-
+     public function create(Account $account, $id)
+     {
+        return $account->id_role == Role::IS_SHOPPER && $account->id == $id;
+     }
      public function update(Account $account,InforShop $InforShop)
      {
        return $account->id_role==Role::IS_SHOPPER && auth()->check() &&  $InforShop->id_account==auth()->id();

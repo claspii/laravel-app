@@ -8,6 +8,7 @@ use App\Repositories\InforShop\IInforShopRepository;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\InforShop;
 
 class InforShopController extends Controller
 {
@@ -32,13 +33,13 @@ class InforShopController extends Controller
 
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             "id_account" => 'required|exists:account,id',
             "name"=>'required',
             "address"=>'required',
 
         ]);
+        $this->authorize('create', [InforShop::class, $request->id_account]);
         if ($validator->fails()) {
             return response()->json(
                 [
@@ -49,8 +50,8 @@ class InforShopController extends Controller
             );
         } else {
             $inforShoper = $this->inforShopRepo->create([
-                'id_account' => $request->id_food,
-                'name'=>$request->id_combo,
+                'id_account' => $request->id_account,
+                'name'=>$request->name,
                 'address'=>$request->address,
                 'image'=>$request->image,
             ]);
@@ -88,15 +89,16 @@ class InforShopController extends Controller
 
     public function update(Request $request, $id)
     {
-        $dataUpdate = [
-            'id_account' => $request->id_food,
-            'name'=>$request->id_combo,
-            'address'=>$request->address,
-            'image'=>$request->image,
-        ];
-       $result=$this->inforShopRepo->update($id, $dataUpdate);
+        $inforShop = InforShop::find($id);
+        if($inforShop == null)
+        return response()->json([
+            'status' => 404,
+            'message' => 'Info not found'
+        ], 404);
+        $this->authorize('update', [InforShop::class, $inforShop]);
+       $result = $inforShop->update($request->all());
        if ($result) {
-        return new InforShopResource($result);
+        return new InforShopResource($inforShop);
     } else {
         return response()->json(
             [
