@@ -7,6 +7,7 @@ use App\Http\Resources\InforUser\InforUserResource;
 use App\Repositories\InforUser\IInforUserRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\InforUser;
 use Illuminate\Support\Facades\Validator;
 
 class InforUserController extends Controller
@@ -91,17 +92,16 @@ class InforUserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $dataUpdate = [
-            'id_account' => $request->id_account,
-            'last_name'=>$request->last_name,
-            'first_name'=>$request->first_name,
-            'address'=>$request->address,
-            'phone_number'=>$request->phone_number,
-            'avatar'=>$request->avatar,
-        ];
-       $result=$this->inforUserRepo->update($id, $dataUpdate);
+        $inforUser = InforUser::find($id);
+        if($inforUser == null)
+        return response()->json([
+            'status' => 404,
+            'message' => 'Info not found'
+        ], 404);
+        $this->authorize('update', [InforUser::class, $inforUser]);
+       $result = $inforUser->update($request->all());
        if ($result) {
-        return new InforUserResource($result);
+        return new InforUserResource($inforUser);
     } else {
         return response()->json(
             [
