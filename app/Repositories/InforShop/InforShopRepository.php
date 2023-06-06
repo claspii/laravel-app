@@ -23,8 +23,12 @@ class InforShopRepository extends BaseRepository implements IInforShopRepository
        foreach($result as $shop){
             $obj = new stdClass();
             $foodFilter = $shop->foods->filter(function ($food) use ($name) { return strpos($food->name, $name) !== false; });
-            $foodFilter = $foodFilter->toArray();
-            $obj->foodFilter = $foodFilter;
+            $filter = [];
+            foreach($foodFilter as $food)
+            {
+                array_push($filter, $food);
+            }
+            $obj->foodFilter = $filter;
             $obj->shop = $shop->setRelation('foods', null);
             array_push($shopfoods, $obj);
        }
