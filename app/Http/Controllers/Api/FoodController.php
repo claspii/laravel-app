@@ -136,6 +136,8 @@ class FoodController extends Controller
     }
 
     public function SearchFoodbytext(Request $request){
+        if($request->text == null)
+            return null;
         $result = $this->foodRepo->searchlistfoodbytext($request->text, 5);
         if($result == null)
         {
