@@ -9,11 +9,11 @@ class Combo extends Model
 {
     use HasFactory;
     protected $table="combo";
-
+    public $timestamps = false;
     protected $fillable=["id","des","id_shop"];
     public function shop()
     {
-        return $this->belongsTo(InforShop::class,"id_shop", 'id_account');
+        return $this->belongsTo(InforShop::class, 'id_shop', 'id_account');
     }
     public function combofood()
     {

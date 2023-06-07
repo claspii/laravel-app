@@ -8,6 +8,7 @@ use App\Repositories\Combo\IComboRepository;
 use App\Repositories\ComboFood\IComboFoodRepository;
 use App\Repositories\InforShop\IInforShopRepository;
 use Illuminate\Support\Facades\DB;
+use App\Models\InforShop;
 
 class FoodRepository extends BaseRepository implements IFoodRepository
 {
@@ -47,42 +48,54 @@ class FoodRepository extends BaseRepository implements IFoodRepository
     }
     public function getComboAndFoodListFromShop($idshop)
     {
-        $shop=$this->inforShopRepo->find($idshop);
-        $combos=$shop->combo;
+        $shop = InforShop::where('id_account', $idshop)->first();
+        $combos = $shop->combo;
         $list=[];
         foreach($combos as $combo)
         {
           $comboFoodStd=new \stdClass();
-          $comboFoodStd->combo=$combo;
-          $comboFood=$combo->comboFood;
-          $comboFoodStd->food=$comboFood->food;
-          array_push($list,$comboFood);
+          $comboFood= $combo->combofood;
+          $listFood = [];
+          foreach($comboFood as $cbFood)
+          {
+            array_push($listFood, $cbFood->food);
+          }
+          $combo = $combo->setRelation('combofood', null);
+          $comboFoodStd->combo = $combo;
+          $comboFoodStd->listFood = $listFood;
+          array_push($list, $comboFoodStd);
         }
         return $list;
     }
     public function updateFoodListToShop($idshop,$comboFoodList)
     {
-        $shop=$this->inforShopRepo->find($idshop);
-        $comboFoods=$shop->combo->combofood;
-        foreach($comboFoods as $comboFood)
+        $shop = InforShop::where('id_account', $idshop)->first();
+        if ($shop->combo->count() != 0)
         {
-            if($comboFood)
+            foreach($shop->combo as $combo)
             {
-                $combo=$comboFood->combo;
-                if($combo)
+                $comboFoods= $combo->combofood;
+                foreach($comboFoods as $comboFood)
                 {
-                    $comboFood->combo()->dissociate();
-                    $comboFood->save();
-                    $combo->delete();
+                    if($comboFood)
+                    {
+                        $combo=$comboFood->combo;
+                        if($combo)
+                        {
+                            $comboFood->combo()->dissociate();
+                            $comboFood->delete();
+                            $combo->delete();
+                        }
+                        $food=$comboFood->food;
+                        if($food)
+                        {
+                            $comboFood->food()->dissociate();
+                            $comboFood->delete();
+                            $food->delete();
+                        }
+                    }
                 }
-                $food=$comboFood->food;
-                if($food)
-                {
-                    $comboFood->food()->dissociate();
-                    $comboFood->save();
-                    $food->delete();
-                }
-            }
+            }    
         }
         $this->savelistfoodandcombo($comboFoodList);
     }

@@ -56,8 +56,10 @@ Route::group(['middleware' => ['auth:api']], function(){
     Route::apiResource('/vouncher', 'App\Http\Controllers\Api\VouncherController')->except(['index', 'store']);
     Route::post('savefoods','App\Http\Controllers\Api\FoodController@savelistfoodandcombo');
 
-Route::put('updatefoods','App\Http\Controllers\Api\FoodController@updateFoodListToShop');
+
 });
+
+Route::put('updatefoods','App\Http\Controllers\Api\FoodController@updateFoodListToShop');
 
 Route::get('searchFood', 'App\Http\Controllers\Api\FoodController@SearchFoodbytext');
 
@@ -104,6 +106,6 @@ Route::apiResource('trangthaidonhang',TrangThaiDonHangController::class);
 
 
 
-Route::put('getfoods','App\Http\Controllers\Api\FoodController@getComboAndFoodListFromShop');
+Route::get('getfoods','App\Http\Controllers\Api\FoodController@getComboAndFoodListFromShop');
 
-
+Route::get('inforRestaurant', 'App\Http\Controllers\Api\FoodController@inforRestaurant');

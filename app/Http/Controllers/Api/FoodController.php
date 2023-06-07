@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use \App\Http\Resources\Food\FoodResource;
 use App\Http\Resources\CustomCollection;
 use App\Models\Food;
+use App\Models\InforShop;
 use Illuminate\Http\Request;
 use App\Repositories\Food\IFoodRepository;
 use Exception;
@@ -159,6 +160,14 @@ class FoodController extends Controller
      }
      return $result;
     }
+    public function inforRestaurant(Request $request){
+        $inforShop = InforShop::where('id_account', $request->id_shop)->first();
+        $listcombofood = $this->foodRepo->getComboAndFoodListFromShop($request->id_shop);
+        return response()->json([
+            'infor' => $inforShop,
+            'listComboFood' => $listcombofood
+        ], 200);
+    }
     public function updateFoodListToShop(Request $request)
     {
         try{
@@ -170,7 +179,7 @@ class FoodController extends Controller
         }catch(Exception $e)
          {
             return response()->json([
-                'status' => 404,
+                'status' => $e->getMessage(),
                 'message' => 'update fail'
             ], 404);
          }

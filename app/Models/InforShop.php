@@ -36,6 +36,6 @@ class InforShop extends Model
         return $this->hasMany(Reviewfood::class, 'id_shop', 'id_account');
     }
     public function combo(){
-        return $this->belongsTo(InforShop::class, 'id_shop', 'id_account');
+        return $this->hasMany(Combo::class, 'id_shop', 'id_account');
     }
 }
