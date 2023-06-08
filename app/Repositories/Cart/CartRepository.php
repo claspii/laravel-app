@@ -29,10 +29,13 @@ class CartRepository extends BaseRepository implements ICartRepository
             $cartFoods = $cartShop->CartFood;
             foreach($cartFoods as $cartFood)
             {
-                array_push($listFood, $cartFood->food);
+                $cartFoodstd = new \stdClass();
+                $cartFoodstd->quantity = $cartFood->quantity;
+                $cartFoodstd->food = $cartFood->food;
+                array_push($listFood, $cartFoodstd);
             }
-            $cartShopstd->id_shop = $cartShop->id_shop;
-            $cartShopstd->id_vouncher = $cartShop->id_vouncher;
+            $cartShopstd->shop = $cartShop->shop;
+            $cartShopstd->vouncher = $cartShop->vouncher;
             $cartShopstd->ship_price = $cartShop->ship_price;
             $cartShopstd->listFood = $listFood;
             array_push($listcartshop, $cartShopstd);
