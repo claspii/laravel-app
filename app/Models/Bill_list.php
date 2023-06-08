@@ -9,7 +9,8 @@ class Bill_list extends Model
 {
     use HasFactory;
     protected $table="bill_list";
-    protected $fillable=["id_bill", "id_shop", "id_vouncher"];
+    protected $fillable=["id_bill", "id_shop", "id_vouncher", "ship_price"];
+    public $timestamps = false;
     public function bill()
     {
         return $this->belongsTo(FoodBill::class,'id_bill');

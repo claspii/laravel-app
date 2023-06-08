@@ -170,6 +170,7 @@ class FoodController extends Controller
     }
     public function updateFoodListToShop(Request $request)
     {
+        $this->authorize('update', [Food::class, $request->id_shop]);
         try{
             $this->foodRepo->updateFoodListToShop($request->id_shop,$request->comboFoodList);
             return response()->json([

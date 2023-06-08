@@ -75,9 +75,10 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\InforShipper\IInforShipperRepository::class,
             \App\Repositories\InforShipper\InforShipperRepository::class
         );
-
-        
-
+        $this->app->singleton(
+          \App\Repositories\Bill\BillRepository::class,
+          \App\Repositories\Bill\IBillRepository::class 
+        );
 
     }
 

@@ -16,6 +16,10 @@ class BillPolicy
     {
         //
     }
+    public function create(Account $account)
+    {
+        return $account->id_role == Role::IS_USER && auth()->check();
+    }
     public function update(Account $account,ShipperDonHangShop $ShipperDonHangShop)
     {
       return $account->id_role==Role::IS_SHOPPER && auth()->check() &&  $ShipperDonHangShop->id_shop==auth()->id()||

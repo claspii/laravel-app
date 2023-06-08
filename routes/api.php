@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\Api\AccountController;
+use App\Http\Controllers\Api\AccountController; 
+use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\BillController;
 use App\Http\Controllers\Api\CartShopController;
 use App\Http\Controllers\ShipperDonHangShopController;
 use App\Http\Controllers\TrangThaiDonHangController;
@@ -9,8 +11,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\Api\FoodController;
 use App\Http\Controllers\Api\ReviewFoodController;
-use App\Models\CartFood;
-use App\Models\InforShipper;
 use App\Http\Controllers\Api\InforUserController;
 use App\Http\Controllers\Api\InforShopController;
 use App\Http\Controllers\Api\InforShipperController;
@@ -90,12 +90,6 @@ Route::apiResource('inforuser', InforUserController::class);
 
 Route::apiResource('inforshop',InforShopController::class);
 
-Route::apiResource('combo',ComboController::class);
-
-Route::apiResource('combo.combofood',ComboFoodController::class);
-
-Route::apiResource('donhang',DonHangController::class);
-
 Route::apiResource('donhang.shipperdonhangshop',ShipperDonHangShopController::class);
 
 Route::apiResource('reviewfood', 'App\Http\Controllers\Api\ReviewFoodController');
@@ -105,7 +99,11 @@ Route::apiResource('reviewfood', 'App\Http\Controllers\Api\ReviewFoodController'
 Route::apiResource('trangthaidonhang',TrangThaiDonHangController::class);
 
 
-
 Route::get('getfoods','App\Http\Controllers\Api\FoodController@getComboAndFoodListFromShop');
 
 Route::get('inforRestaurant', 'App\Http\Controllers\Api\FoodController@inforRestaurant');
+
+Route::post('savebill', 'App\Http\Controllers\Api\BillController@savebill');
+
+Route::get('cartinfo', 'App\Http\Controllers\Api\CartController@infocart');
+

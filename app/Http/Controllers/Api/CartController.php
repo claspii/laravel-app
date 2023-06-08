@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\CustomCollection;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Resources\CartResource;
-
-
+use App\Http\Resources\Cart\CartResource;
 use App\Repositories\Cart\ICartRepository;
 use Illuminate\Http\Request;
+use App\Models\Cart;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -22,7 +21,7 @@ class CartController extends Controller
 
     public function index()
     {
-        $carts = $this->cartRepo->getAll();
+        $carts = Cart::All();
         if ($carts) {
             return new CustomCollection($carts);
         }
@@ -49,7 +48,7 @@ class CartController extends Controller
                 442
             );
         } else {
-            $cart = $this->cartRepo->create([
+            $cart = Cart::create([
                 'id_user' => $request->id,
             ]);
             if($cart)
@@ -70,7 +69,7 @@ class CartController extends Controller
 
     public function show($id)
     {
-        $cart = $this->cartRepo->find($id);
+        $cart = Cart::find($id);
         if ($cart) {
             return new CartResource($cart);
         } else {
@@ -86,7 +85,7 @@ class CartController extends Controller
         $dataUpdate=[
             'id_user' => $request->id_user,
         ];
-       $result= $this->cartRepo->update($id,$dataUpdate);
+       $result= Cart::where('id', $id)->update($dataUpdate);
        if ($result) {
         return new CartResource($result);
     } else {
@@ -104,7 +103,7 @@ class CartController extends Controller
     public function destroy($id)
     {
 
-        $result=$this->cartRepo->delete($id);
+        $result=Cart::destroy($id);
        if($result)
        {
         return response()->json(
@@ -122,5 +121,23 @@ class CartController extends Controller
         ],
         404
     );
+    }
+
+    public function infocart(Request $request)
+    {
+        $result = $this->cartRepo->getInfoCart($request->user()->id);
+        if($result)
+        {
+            return response()->json([
+                'cart' => $result
+            ], 200);
+        }
+        else 
+        {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Cart is Empty'
+            ], 404);
+        }
     }
 }

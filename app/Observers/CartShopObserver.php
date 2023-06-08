@@ -47,7 +47,6 @@ class CartShopObserver
     {
         $cart = Cart::where('id', $cartShop->id_cart)->firstOrFail();
         $cart->tongtien = $cart->tongtien - $cartShop->ship_price;
-        print($cart->tongtien);
         if($cartShop->id_vouncher != null)
         {
             $vouncher = Vouncher::where('id', $cartShop->id_vouncher);

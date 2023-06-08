@@ -10,6 +10,7 @@ class Bill_list_item extends Model
     use HasFactory;
     protected $table="bill_list_item";
     protected $fillable=["id_listbill", "id_food", "quantity"];
+    public $timestamps = false;
     public function bill_list()
     {
         return $this->belongsTo(Bill_list::class,'id_listbill');

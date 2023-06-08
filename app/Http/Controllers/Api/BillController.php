@@ -9,20 +9,18 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Cart;
+use App\Models\FoodBill;
+use App\Models\Bill_list;
+use App\Models\Bill_list_item;
 
 class BillController extends Controller
 {
-    protected $billRepo;
-    public function __construct(IBillRepository $repo)
-    {
-        $this->billRepo=$repo;
-        $this->authorizeResource(Bill::class,'App\Policies\BillPolicy');
-    }
 
     public function index()
     {
-        $bills = $this->billRepo->getAll();
-        if ($bills) {
+        $bills = FoodBill::all();
+        if ($bills->count() > 0) {
             return new CustomCollection($bills);
         }
 
@@ -50,7 +48,7 @@ class BillController extends Controller
                 442
             );
         } else {
-            $bill = $this->billRepo->create([
+            $bill = FoodBill::create([
                 'id_state' => $request->id_state,
                 'price' => $request->price,
                 'id_user' => $request->id_user,
@@ -74,7 +72,7 @@ class BillController extends Controller
 
     public function show($id)
     {
-        $Bill = $this->billRepo->find($id);
+        $Bill = FoodBill::find($id);
         if ($Bill) {
             return new BillResource($Bill);
         } else {
@@ -94,7 +92,7 @@ class BillController extends Controller
             'payment_method' => $request->payment_method,
             'created_at' => Carbon::now()
         ];
-       $result=$this->billRepo->update($id, $dataUpdate);
+       $result= FoodBill::where('id', $id)->update($dataUpdate);
        if ($result) {
         return new BillResource($result);
     } else {
@@ -111,7 +109,7 @@ class BillController extends Controller
 
     public function destroy($id)
     {
-       $result=$this->billRepo->delete($id);
+       $result= FoodBill::destroy($id);
        if($result)
        {
         return response()->json(
@@ -129,5 +127,41 @@ class BillController extends Controller
         ],
         404
     );
+    }
+
+    public function saveBill(Request $request)
+    {
+        $this->authorize('create', Bill::class);
+        $cart = Cart::where('id_user', $request->user()->id)->first();
+        $cartShops = $cart->CartShop;
+        if($cartShops->count() == 0)    
+            return response()->json([
+                'status' => 404,
+                'message' => 'No Food in Cart'
+            ], 404);
+        $bill = FoodBill::create(['id_user' => $cart->id_user, 'price' => $cart->tongtien, 
+        'created_at' => Carbon::now() ,'payment_method' => $request->payment_method == null ? 1 : $request->payment_method]);
+        foreach($cartShops as $cartShop)
+        {
+            $bill_list = Bill_list::create(['id_bill' => $bill->id, 'id_shop' => $cartShop->id_shop
+            , 'id_vouncher' => $cartShop->id_vouncher, 'ship_price' => $cartShop->ship_price]);
+            $cartFoods = $cartShop->CartFood;
+            foreach($cartFoods as $cartFood)
+            {
+                Bill_list_item::create(['id_listbill' => $bill_list->id, 
+                'id_food' => $cartFood->id_food, 'quantity' => $cartFood->quantity]);
+                $cartFood->delete();
+            }
+        }
+        if($bill)
+        {
+            return new BillResource($bill);
+        }
+        else{
+            return response()->json([
+                'status' => 404,
+                'message' => 'Something went wrong'
+            ]. 404);
+        }
     }
 }

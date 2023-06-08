@@ -19,9 +19,9 @@ class FoodPolicy
     {
       return $account->id_role==Role::IS_SHOPPER;
     }
-    public function update(Account $account,Food $Food)
+    public function update(Account $account, $id_shop)
     {
-      return $account->id_role==Role::IS_SHOPPER && auth()->check() &&  $Food->id_shop==auth()->id();
+      return $account->id_role==Role::IS_SHOPPER && auth()->check() &&  $id_shop == auth()->id();
     }
     public function delete(Account $account,Food $Food)
     {
