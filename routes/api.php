@@ -103,6 +103,6 @@ Route::get('getfoods','App\Http\Controllers\Api\FoodController@getComboAndFoodLi
 
 Route::get('inforRestaurant', 'App\Http\Controllers\Api\FoodController@inforRestaurant');
 
-Route::post('savebill', 'App\Http\Controllers\Api\BillController@savebill');
+Route::post('savebill', 'App\Http\Controllers\Api\BillController@savebill')->middleware('auth:api');
 
-Route::get('cartinfo', 'App\Http\Controllers\Api\CartController@infocart');
+Route::get('cartinfo', 'App\Http\Controllers\Api\CartController@infocart')->middleware('auth:api');

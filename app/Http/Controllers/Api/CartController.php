@@ -125,6 +125,7 @@ class CartController extends Controller
 
     public function infocart(Request $request)
     {
+        $this->authorize('create', Cart::class);
         $result = $this->cartRepo->getInfoCart($request->user()->id);
         if($result)
         {
