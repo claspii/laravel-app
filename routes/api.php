@@ -69,11 +69,11 @@ Route::get('showTopShop', 'App\Http\Controllers\Api\InforShopController@selectTo
 
 Route::get('showTopFood', 'App\Http\Controllers\Api\FoodController@selectTopFood');
 
-Route::post('addFood', 'App\Http\Controllers\Api\CartFoodController@addFoodtoCart')->middleware('auth:id');
+Route::post('addFood', 'App\Http\Controllers\Api\CartFoodController@addFoodtoCart')->middleware('auth:api');
 
-Route::post('decreaseFood', 'App\Http\Controllers\Api\CartFoodController@decreaseFoodtoCart')->middleware('auth:id');
+Route::post('decreaseFood', 'App\Http\Controllers\Api\CartFoodController@decreaseFoodtoCart')->middleware('auth:api');
 
-Route::post('deleteFood', 'App\Http\Controllers\Api\CartFoodController@deleteFoodInCart')->middleware('auth:id');
+Route::post('deleteFood', 'App\Http\Controllers\Api\CartFoodController@deleteFoodInCart')->middleware('auth:api');
 
 
 Route::apiResource('account', AccountController::class)->except(['index', 'show']);
