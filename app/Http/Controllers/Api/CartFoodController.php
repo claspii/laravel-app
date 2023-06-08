@@ -83,7 +83,7 @@ class CartFoodController extends Controller
 
     public function addFoodtoCart(Request $request)
     {
-        $this->authorize('create', CartFood::class);
+        // $this->authorize('create', CartFood::class);
         $result = $this->cartFoodRepo->addCartFoodtoCart($request->user()->id, ['id_food' => $request->id_food, 
                 'id_vouncher' => $request->id_vouncher, 'quantity' => $request->quantity]);
 
