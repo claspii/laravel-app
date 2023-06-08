@@ -143,7 +143,4 @@ class CartFoodController extends Controller
             );
         }
     }
-    public function test(Request $request){
-        return auth()->id();
-    }
 }

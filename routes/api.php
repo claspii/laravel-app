@@ -107,4 +107,4 @@ Route::post('savebill', 'App\Http\Controllers\Api\BillController@savebill');
 
 Route::get('cartinfo', 'App\Http\Controllers\Api\CartController@infocart');
 
-Route::get('test', 'App\Http\Controllers\Api\CartFoodController@test')->middleware('auth:api');
+Route::get('test', 'App\Http\Controllers\Api\CartFoodController@test');
