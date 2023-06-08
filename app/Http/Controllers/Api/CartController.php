@@ -140,8 +140,4 @@ class CartController extends Controller
             ], 404);
         }
     }
-    public function test(Request $request)
-    {
-        return auth()->id();
-    }
 }
