@@ -17,7 +17,7 @@ class ReviewFoodPolicy
     }
     public function create()
     {
-      return auth()->check();
+      return auth()->user->id_role == Role::IS_USER;
     }
     public function update(Account $account,ReviewFood $ReviewFood)
     {

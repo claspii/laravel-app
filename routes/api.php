@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AccountController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\BillController;
 use App\Http\Controllers\Api\CartShopController;
+use App\Http\Controllers\Api\VouncherController;
 use App\Http\Controllers\ShipperDonHangShopController;
 use App\Http\Controllers\TrangThaiDonHangController;
 use Illuminate\Http\Request;
@@ -43,8 +44,6 @@ Route::group([
 });
 });
 
-Route::post('savelistfood','App\Http\Controllers\Api\FoodController@savelistfoodandcombo');
-
 
 
 // Route::apiResource('foods',FoodController::class)->missing(function (Request $request) {
@@ -59,7 +58,9 @@ Route::group(['middleware' => ['auth:api']], function(){
 
 });
 
-Route::put('updatefoods','App\Http\Controllers\Api\FoodController@updateFoodListToShop');
+Route::put('updatefoods','App\Http\Controllers\Api\FoodController@updateFoodListToShop')->middleware('auth:api');
+
+Route::post('savefoods', 'App\Http\Controllers\Api\FoodController@savelistfoodandcombo')->middleware('auth:api');
 
 Route::get('searchFood', 'App\Http\Controllers\Api\FoodController@SearchFoodbytext');
 
@@ -82,8 +83,6 @@ Route::apiResource('account', AccountController::class)->except(['index', 'show'
 
 Route::apiResource('food', FoodController::class);
 
-Route::apiResource('cartshop', CartShopController::class);
-
 Route::apiResource('inforshipper',InforShipperController::class);
 
 Route::apiResource('inforuser', InforUserController::class);
@@ -92,11 +91,13 @@ Route::apiResource('inforshop',InforShopController::class);
 
 Route::apiResource('donhang.shipperdonhangshop',ShipperDonHangShopController::class);
 
-Route::apiResource('reviewfood', 'App\Http\Controllers\Api\ReviewFoodController');
+Route::apiResource('reviewfood', 'App\Http\Controllers\Api\ReviewFoodController')->middleware('auth:api');
 
 // Route::apiResource('inforuser.reviewshipper',ReviewShipper::class);
 
 Route::apiResource('trangthaidonhang',TrangThaiDonHangController::class);
+
+Route::apiResource('vouncher', VouncherController::class)->middleware('auth:api');
 
 
 Route::get('getfoods','App\Http\Controllers\Api\FoodController@getComboAndFoodListFromShop');

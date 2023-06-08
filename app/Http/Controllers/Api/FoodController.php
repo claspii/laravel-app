@@ -187,6 +187,7 @@ class FoodController extends Controller
     }
     public function savelistfoodandcombo(Request $request)
     {
+        $this->authorize('update', [Food::class, $request->id_shop]);
         try{
             $this->foodRepo->savelistfoodandcombo($request->comboFoodList);
             return response()->json([

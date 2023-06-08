@@ -71,7 +71,6 @@ class ReviewFoodController extends Controller
         }
     }
 
-
     public function show(Request $request, $id)
     {
         $ReviewFood = $this->ReviewFoodRepo->find($id);
@@ -85,10 +84,6 @@ class ReviewFoodController extends Controller
             ], 404);
         };
     }
-
-
-
-
 
     public function update(Request $request, $id)
     {
