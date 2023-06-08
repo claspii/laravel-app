@@ -19,6 +19,6 @@ class CartFoodPolicy
     }
     public function create(Account $account)
     {
-      return auth()->user->id_role==Role::IS_USER;
+      return auth()->user()->id_role==Role::IS_USER;
     }
 }
